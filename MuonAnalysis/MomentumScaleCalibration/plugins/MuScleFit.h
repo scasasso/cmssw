@@ -21,6 +21,7 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "MuScleFitBase.h"
+#include "MuonAnalysis/MomentumScaleCalibration/interface/Muon.h"
 
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/MuonReco/interface/Muon.h"
@@ -78,7 +79,7 @@ class MuScleFit: public edm::EDLooper, MuScleFitBase
   virtual void duringFastLoop();
 
   template<typename T>
-  std::vector<reco::LeafCandidate> fillMuonCollection( const std::vector<T>& tracks );
+  std::vector<MuScleFitMuon> fillMuonCollection( const std::vector<T>& tracks );
  private:
 
  protected:
@@ -170,32 +171,6 @@ class MuScleFit: public edm::EDLooper, MuScleFitBase
   std::auto_ptr<MuScleFitMuonSelector> muonSelector_;
 };
 
-template<typename T>
-std::vector<reco::LeafCandidate> MuScleFit::fillMuonCollection( const std::vector<T>& tracks )
-{
-  std::vector<reco::LeafCandidate> muons;
-  typename std::vector<T>::const_iterator track;
-  for( track = tracks.begin(); track != tracks.end(); ++track ) {
-    reco::Particle::LorentzVector mu;
-    mu = reco::Particle::LorentzVector(track->px(),track->py(),track->pz(),
-                                       sqrt(track->p()*track->p() + MuScleFitUtils::mMu2));
-    // Apply smearing if needed, and then bias
-    // ---------------------------------------
-    MuScleFitUtils::goodmuon++;
-    if (debug_>0) 
-      std::cout <<std::setprecision(9)<< "Muon #" << MuScleFitUtils::goodmuon
-                       << ": initial value   Pt = " << mu.Pt() << std::endl;
-
-    applySmearing(mu);
-    applyBias(mu, track->charge());
-
-    reco::LeafCandidate muon(track->charge(),mu);
-    // Store modified muon
-    // -------------------
-    muons.push_back (muon);
-  }
-  return muons;
-}
 
 template<typename T>
 void MuScleFit::takeSelectedMuonType(const T & muon, std::vector<reco::Track> & tracks)

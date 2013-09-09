@@ -128,6 +128,7 @@
 #include "MuScleFitPlotter.h"
 #include "MuonAnalysis/MomentumScaleCalibration/interface/Functions.h"
 #include "MuonAnalysis/MomentumScaleCalibration/interface/RootTreeHandler.h"
+#include "MuonAnalysis/MomentumScaleCalibration/interface/Muon.h"
 #include "MuScleFitMuonSelector.h"
 
 #include "DataFormats/TrackReco/interface/Track.h"
@@ -213,7 +214,8 @@ class MuScleFit: public edm::EDLooper, MuScleFitBase
   virtual void duringFastLoop();
 
   template<typename T>
-  std::vector<reco::LeafCandidate> fillMuonCollection( const std::vector<T>& tracks );
+  std::vector<MuScleFitMuon> fillMuonCollection( const std::vector<T>& tracks );
+
  private:
 
  protected:
@@ -281,6 +283,7 @@ class MuScleFit: public edm::EDLooper, MuScleFitBase
   // The reconstructed muon 4-momenta to be put in the tree
   // ------------------------------------------------------
   reco::Particle::LorentzVector recMu1, recMu2;
+  MuScleFitMuon recMuScleMu1, recMuScleMu2;
   int iev;
   int totalEvents_;
 
@@ -306,9 +309,9 @@ class MuScleFit: public edm::EDLooper, MuScleFitBase
 };
 
 template<typename T>
-std::vector<reco::LeafCandidate> MuScleFit::fillMuonCollection( const std::vector<T>& tracks )
+std::vector<MuScleFitMuon> MuScleFit::fillMuonCollection( const std::vector<T>& tracks )
 {
-  std::vector<reco::LeafCandidate> muons;
+  std::vector<MuScleFitMuon> muons;
   typename std::vector<T>::const_iterator track;
   for( track = tracks.begin(); track != tracks.end(); ++track ) {
     reco::Particle::LorentzVector mu;
@@ -323,14 +326,24 @@ std::vector<reco::LeafCandidate> MuScleFit::fillMuonCollection( const std::vecto
 
     applySmearing(mu);
     applyBias(mu, track->charge());
+    if (debug_>0) std::cout<<"track charge: "<<track->charge()<<std::endl;
 
-    reco::LeafCandidate muon(track->charge(),mu);
+    Double_t hitsTk = track->innerTrack()->hitPattern().numberOfValidTrackerHits();
+    Double_t hitsMuon = track->innerTrack()->hitPattern().numberOfValidMuonHits();
+    Double_t ptError = track->innerTrack()->ptError();
+    MuScleFitMuon muon(mu,track->charge(),ptError,hitsTk,hitsMuon,false);
+    if (debug_>0) {
+      std::cout<<"[MuScleFit::fillMuonCollection]"<<std::endl;
+      std::cout<<"  muon = "<<muon<<std::endl;
+    }
+
     // Store modified muon
     // -------------------
     muons.push_back (muon);
   }
   return muons;
 }
+
 
 template<typename T>
 void MuScleFit::takeSelectedMuonType(const T & muon, std::vector<reco::Track> & tracks)
@@ -527,13 +540,13 @@ MuScleFit::MuScleFit( const edm::ParameterSet& pset ) :
   MuScleFitUtils::massWindowHalfWidth[0][2] = 0.35;
   MuScleFitUtils::massWindowHalfWidth[0][3] = 0.35;
   MuScleFitUtils::massWindowHalfWidth[0][4] = 0.2;
-  MuScleFitUtils::massWindowHalfWidth[0][5] = 0.2;
-  MuScleFitUtils::massWindowHalfWidth[1][0] = 50.;
-  MuScleFitUtils::massWindowHalfWidth[1][1] = 2.5;
-  MuScleFitUtils::massWindowHalfWidth[1][2] = 2.5;
-  MuScleFitUtils::massWindowHalfWidth[1][3] = 2.5;
-  MuScleFitUtils::massWindowHalfWidth[1][4] = 1.5;
-  MuScleFitUtils::massWindowHalfWidth[1][5] = 1.5;
+  MuScleFitUtils::massWindowHalfWidth[0][5] = 0.2;  
+  MuScleFitUtils::massWindowHalfWidth[1][0] = 20.;  
+  MuScleFitUtils::massWindowHalfWidth[1][1] = 0.35; 
+  MuScleFitUtils::massWindowHalfWidth[1][2] = 0.35; 
+  MuScleFitUtils::massWindowHalfWidth[1][3] = 0.35; 
+  MuScleFitUtils::massWindowHalfWidth[1][4] = 0.2;  
+  MuScleFitUtils::massWindowHalfWidth[1][5] = 0.2;  
   MuScleFitUtils::massWindowHalfWidth[2][0] = 20.;
   MuScleFitUtils::massWindowHalfWidth[2][1] = 0.35;
   MuScleFitUtils::massWindowHalfWidth[2][2] = 0.35;
@@ -585,6 +598,15 @@ MuScleFit::~MuScleFit () {
       RootTreeHandler rootTreeHandler;
       if( MuScleFitUtils::speedup ) {
         // rootTreeHandler.writeTree(outputRootTreeFileName_, &(MuScleFitUtils::SavedPair), theMuonType_, 0, saveAllToTree_);
+	if (debug_>0) {
+	  std::vector<MuonPair>::const_iterator it = muonPairs_.begin();
+	  std::cout<<"[MuScleFit::~MuScleFit] (Destructor)"<<std::endl;
+	  for (; it<muonPairs_.end();++it){
+	    std::cout<<"  Debugging pairs that are going to be written to file"<<std::endl;
+	    std::cout<<"  muon1 = "<<it->mu1<<std::endl;
+	    std::cout<<"  muon2 = "<<it->mu2<<std::endl;
+	  }
+	}
         rootTreeHandler.writeTree(outputRootTreeFileName_, &(muonPairs_), theMuonType_, 0, saveAllToTree_);
       }
       else {
@@ -827,13 +849,22 @@ void MuScleFit::selectMuons(const edm::Event & event)
   recMu1 = reco::Particle::LorentzVector(0,0,0,0);
   recMu2 = reco::Particle::LorentzVector(0,0,0,0);
 
-  std::vector<reco::LeafCandidate> muons;
+  std::vector<MuScleFitMuon> muons;
   muonSelector_->selectMuons(event, muons, genMuonPairs_, MuScleFitUtils::simPair, plotter);
   //  plotter->fillRec(muons); // @EM method already invoked inside MuScleFitMuonSelector::selectMuons()
 
+  if (debug_>0){
+    std::cout<<"[MuScleFit::selectMuons] Debugging muons collections after call to muonSelector_->selectMuons"<<std::endl;
+    int iMu=0;
+    for (std::vector<MuScleFitMuon>::const_iterator it = muons.begin(); it < muons.end(); ++it) {
+      std::cout<<"  - muon n. "<<iMu<<" = "<<(*it)<<std::endl;
+      ++iMu;
+    }
+  }
+
   // Find the two muons from the resonance, and set ResFound bool
   // ------------------------------------------------------------
-  std::pair<reco::Particle::LorentzVector, reco::Particle::LorentzVector> recMuFromBestRes =
+  std::pair<MuScleFitMuon, MuScleFitMuon> recMuFromBestRes =
     MuScleFitUtils::findBestRecoRes(muons);
 
   if (MuScleFitUtils::ResFound) {
@@ -843,24 +874,27 @@ void MuScleFit::selectMuons(const edm::Event & event)
       std::cout << "recMu1 = " << recMu1 << std::endl;
       std::cout << "recMu2 = " << recMu2 << std::endl;
     }
-    recMu1 = recMuFromBestRes.first;
-    recMu2 = recMuFromBestRes.second;
+    recMu1 = recMuFromBestRes.first.p4();
+    recMu2 = recMuFromBestRes.second.p4();
+    recMuScleMu1 = recMuFromBestRes.first;
+    recMuScleMu2 = recMuFromBestRes.second;
+
     if (debug_>0) {
       std::cout << "after recMu1 = " << recMu1 << std::endl;
       std::cout << "after recMu2 = " << recMu2 << std::endl;
       std::cout << "mu1.pt = " << recMu1.Pt() << std::endl;
       std::cout << "mu2.pt = " << recMu2.Pt() << std::endl;
+      std::cout << "after recMuScleMu1 = " << recMuScleMu1 << std::endl;
+      std::cout << "after recMuScleMu2 = " << recMuScleMu2 << std::endl;
     }
-    MuScleFitUtils::SavedPair.push_back( std::make_pair( recMu1, recMu2 ) );
+    MuScleFitUtils::SavedPair.push_back( std::make_pair( recMuScleMu1, recMuScleMu2 ) );
   } else {
     MuScleFitUtils::SavedPair.push_back( std::make_pair( lorentzVector(0.,0.,0.,0.), lorentzVector(0.,0.,0.,0.) ) );
   }
   // Save the events also in the external tree so that it can be saved late
 
   // std::cout << "SavedPair->size() " << MuScleFitUtils::SavedPair.size() << std::endl;
-  muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPair.back().first,
-				MuScleFitUtils::SavedPair.back().second,
-				event.run(), event.id().event()));
+  muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPair.back().first, MuScleFitUtils::SavedPair.back().second, event.run(), event.id().event()));
   // Fill the internal genPair tree from the external one
   if( MuScleFitUtils::speedup == false ) {
     MuScleFitUtils::genPair.push_back(std::make_pair( genMuonPairs_.back().mu1, genMuonPairs_.back().mu2 ));

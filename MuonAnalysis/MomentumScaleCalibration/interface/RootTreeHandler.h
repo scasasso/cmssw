@@ -51,7 +51,7 @@ public:
     unsigned int iev = 0;
     for( ; muonPairIt != savedPair->end(); ++muonPairIt, ++iev ) {
 
-      if( saveAll || ( (muonPairIt->mu1 != emptyLorentzVector) && (muonPairIt->mu2 != emptyLorentzVector) ) ) {
+      if( saveAll || ( (muonPairIt->mu1.p4() != emptyLorentzVector) && (muonPairIt->mu2.p4() != emptyLorentzVector) ) ) {
 
 	// muonPair->setPair(muonType, std::make_pair(muonPairIt->first, muonPairIt->second));
 	muonPair->copy(*muonPairIt);

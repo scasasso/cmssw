@@ -14,6 +14,7 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 #include "SimDataFormats/Track/interface/SimTrackContainer.h"
 #include "Histograms.h"
+#include "MuonAnalysis/MomentumScaleCalibration/interface/Muon.h"
 
 namespace edm {
   class ParameterSet;
@@ -42,6 +43,7 @@ class MuScleFitPlotter{
   void fillSim(edm::Handle<edm::SimTrackContainer> simTracks);
   void fillGenSim(edm::Handle<edm::HepMCProduct> evtMC, edm::Handle<edm::SimTrackContainer> simTracks);
   void fillRec(std::vector<reco::LeafCandidate>& muons);
+  void fillRec(std::vector<MuScleFitMuon>& muons);
 
   // Root tree specific
   void fillTreeRec( const std::vector<std::pair<reco::Particle::LorentzVector, reco::Particle::LorentzVector> > & savedPairs );

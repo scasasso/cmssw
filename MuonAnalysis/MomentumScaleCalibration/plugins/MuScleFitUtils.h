@@ -25,6 +25,7 @@
 #include "MuonAnalysis/MomentumScaleCalibration/interface/CrossSectionHandler.h"
 #include "MuonAnalysis/MomentumScaleCalibration/interface/BackgroundHandler.h"
 #include "MuonAnalysis/MomentumScaleCalibration/interface/ResolutionFunction.h"
+#include "MuonAnalysis/MomentumScaleCalibration/interface/Muon.h"
 
 #include <vector>
 
@@ -58,7 +59,7 @@ public:
   // Operations
   // ----------
   static std::pair<SimTrack, SimTrack> findBestSimuRes( const std::vector<SimTrack>& simMuons );
-  static std::pair<lorentzVector, lorentzVector> findBestRecoRes( const std::vector<reco::LeafCandidate>& muons );
+  static std::pair<MuScleFitMuon, MuScleFitMuon> findBestRecoRes( const std::vector<MuScleFitMuon>& muons );
   static std::pair <lorentzVector, lorentzVector> findGenMuFromRes( const reco::GenParticleCollection* genParticles);
   static std::pair<lorentzVector, lorentzVector> findGenMuFromRes( const edm::HepMCProduct* evtMC );
   static std::pair<lorentzVector, lorentzVector> findSimMuFromRes( const edm::Handle<edm::HepMCProduct> & evtMC,
