@@ -887,14 +887,15 @@ void MuScleFit::selectMuons(const edm::Event & event)
       std::cout << "after recMuScleMu1 = " << recMuScleMu1 << std::endl;
       std::cout << "after recMuScleMu2 = " << recMuScleMu2 << std::endl;
     }
-    MuScleFitUtils::SavedPair.push_back( std::make_pair( recMuScleMu1, recMuScleMu2 ) );
+    MuScleFitUtils::SavedPair.push_back( std::make_pair( recMuScleMu1.p4(), recMuScleMu2.p4() ) );
   } else {
     MuScleFitUtils::SavedPair.push_back( std::make_pair( lorentzVector(0.,0.,0.,0.), lorentzVector(0.,0.,0.,0.) ) );
   }
   // Save the events also in the external tree so that it can be saved late
 
   // std::cout << "SavedPair->size() " << MuScleFitUtils::SavedPair.size() << std::endl;
-  muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPair.back().first, MuScleFitUtils::SavedPair.back().second, event.run(), event.id().event()));
+  //muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPair.back().first, MuScleFitUtils::SavedPair.back().second, event.run(), event.id().event()));
+  muonPairs_.push_back(MuonPair(recMuScleMu1, recMuScleMu2, event.run(), event.id().event()));
   // Fill the internal genPair tree from the external one
   if( MuScleFitUtils::speedup == false ) {
     MuScleFitUtils::genPair.push_back(std::make_pair( genMuonPairs_.back().mu1, genMuonPairs_.back().mu2 ));
