@@ -42,7 +42,7 @@ class MuScleFitPlotter{
   void fillGen(const edm::HepMCProduct* evtMC, bool sherpaFlag_);
   void fillSim(edm::Handle<edm::SimTrackContainer> simTracks);
   void fillGenSim(edm::Handle<edm::HepMCProduct> evtMC, edm::Handle<edm::SimTrackContainer> simTracks);
-  void fillRec(std::vector<reco::LeafCandidate>& muons);
+  //void fillRec(std::vector<reco::LeafCandidate>& muons);
   void fillRec(std::vector<MuScleFitMuon>& muons);
 
   // Root tree specific

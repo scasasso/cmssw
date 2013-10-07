@@ -887,15 +887,15 @@ void MuScleFit::selectMuons(const edm::Event & event)
       std::cout << "after recMuScleMu1 = " << recMuScleMu1 << std::endl;
       std::cout << "after recMuScleMu2 = " << recMuScleMu2 << std::endl;
     }
-    MuScleFitUtils::SavedPair.push_back( std::make_pair( recMuScleMu1.p4(), recMuScleMu2.p4() ) );
+    MuScleFitUtils::SavedPair.push_back( std::make_pair( recMu1, recMu2 ) );
+    MuScleFitUtils::SavedPairMuScleMuons.push_back( std::make_pair( recMuScleMu1, recMuScleMu2 ) );
   } else {
     MuScleFitUtils::SavedPair.push_back( std::make_pair( lorentzVector(0.,0.,0.,0.), lorentzVector(0.,0.,0.,0.) ) );
+    MuScleFitUtils::SavedPairMuScleMuons.push_back( std::make_pair( MuScleFitMuon() , MuScleFitMuon() ) );
   }
   // Save the events also in the external tree so that it can be saved late
 
-  // std::cout << "SavedPair->size() " << MuScleFitUtils::SavedPair.size() << std::endl;
-  //muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPair.back().first, MuScleFitUtils::SavedPair.back().second, event.run(), event.id().event()));
-  muonPairs_.push_back(MuonPair(recMuScleMu1, recMuScleMu2, event.run(), event.id().event()));
+  muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPairMuScleMuons.back().first, MuScleFitUtils::SavedPairMuScleMuons.back().second, event.run(), event.id().event()));
   // Fill the internal genPair tree from the external one
   if( MuScleFitUtils::speedup == false ) {
     MuScleFitUtils::genPair.push_back(std::make_pair( genMuonPairs_.back().mu1, genMuonPairs_.back().mu2 ));
@@ -924,13 +924,13 @@ void MuScleFit::selectMuons(const int maxEvents, const TString & treeFileName)
     // Note that cuts here are only applied to already selected muons. They should not be used unless
     // you are sure that the difference is negligible (e.g. the number of events with > 2 muons is negligible).
     double pt1 = it->first.pt();
-    // std::cout << "pt1 = " << pt1 << std::endl;
+    //std::cout << "pt1 = " << pt1 << std::endl;
     double pt2 = it->second.pt();
-    // std::cout << "pt2 = " << pt2 << std::endl;
+    //std::cout << "pt2 = " << pt2 << std::endl;
     double eta1 = it->first.eta();
-    // std::cout << "eta1 = " << eta1 << std::endl;
+    //std::cout << "eta1 = " << eta1 << std::endl;
     double eta2 = it->second.eta();
-    // std::cout << "eta2 = " << eta2 << std::endl;
+    //std::cout << "eta2 = " << eta2 << std::endl;
     // If they don't pass the cuts set to null vectors
     bool dontPass = false;
     bool eta1InFirstRange; 
@@ -969,12 +969,14 @@ void MuScleFit::selectMuons(const int maxEvents, const TString & treeFileName)
     // Additional check on deltaPhi
     double deltaPhi = MuScleFitUtils::deltaPhi(it->first.phi(), it->second.phi());
     if( (deltaPhi <= MuScleFitUtils::deltaPhiMinCut_) || (deltaPhi >= MuScleFitUtils::deltaPhiMaxCut_) ) dontPass = true;
-    
+
+
     if( dontPass ) {
       // std::cout << "removing muons not passing cuts" << std::endl;
       it->first = reco::Particle::LorentzVector(0,0,0,0);
       it->second = reco::Particle::LorentzVector(0,0,0,0);
     }
+
 
     // First is always mu-, second mu+
     if( (MuScleFitUtils::SmearType != 0) || (MuScleFitUtils::BiasType != 0) ) {
@@ -983,8 +985,11 @@ void MuScleFit::selectMuons(const int maxEvents, const TString & treeFileName)
       applySmearing(it->second);
       applyBias(it->second, 1);
     }
-    muonPairs_.push_back(MuonPair(it->first, it->second,
-		         evtRunIt->second, evtRunIt->first));
+
+    //FIXME: we loose the additional information besides the 4-momenta
+    muonPairs_.push_back(MuonPair(MuScleFitMuon(it->first,-1), MuScleFitMuon(it->second,+1),
+				  evtRunIt->second, evtRunIt->first));
+
 
     // Fill the internal genPair tree from the external one
     if( MuScleFitUtils::speedup == false ) {
@@ -1005,6 +1010,9 @@ void MuScleFit::duringFastLoop()
   MuScleFitUtils::ResFound = false;
   recMu1 = (MuScleFitUtils::SavedPair[iev].first);
   recMu2 = (MuScleFitUtils::SavedPair[iev].second);
+
+  //std::cout << "iev = " << iev << ", recMu1 pt = " << recMu1.Pt() << ", recMu2 pt = " << recMu2.Pt() << std::endl;
+
   if (recMu1.Pt()>0 && recMu2.Pt()>0) {
     MuScleFitUtils::ResFound = true;
     if (debug_>0) std::cout << "Ev = " << iev << ": found muons in tree with Pt = "
@@ -1036,9 +1044,9 @@ void MuScleFit::duringFastLoop()
     }
     if (debug_>0) {
       std::cout << "Loop #" << loopCounter << "Event #" << iev << ": after correction      Pt1 = "
-	   << recMu1.Pt() << " Pt2 = " << recMu2.Pt() << std::endl;
+		<< recMu1.Pt() << " Pt2 = " << recMu2.Pt() << std::endl;
     }
-
+    
     reco::Particle::LorentzVector bestRecRes( recMu1+recMu2 );
 
     //Fill histograms

@@ -167,10 +167,8 @@ int MuScleFitUtils::FitStrategy = 1; // Strategy in likelihood fit (1 or 2)
 bool MuScleFitUtils::speedup = false; // Whether to cut corners (no sim study, fewer histos)
 
 std::vector<std::pair<lorentzVector,lorentzVector> > MuScleFitUtils::SavedPair; // Pairs of reconstructed muons making resonances
-std::vector<std::pair<MuScleFitMuon,MuScleFitMuon> > MuScleFitUtils::SavedPairMuScleMuons; // Pairs of reconstructed muons making resonances
 std::vector<std::pair<lorentzVector,lorentzVector> > MuScleFitUtils::ReducedSavedPair; // Pairs of reconstructed muons making resonances inside smaller windows
 std::vector<std::pair<lorentzVector,lorentzVector> > MuScleFitUtils::genPair; // Pairs of generated muons making resonances
-//std::vector<GenMuonPair> MuScleFitUtils::genPairMuScleMuons; // Pairs of generated muons making resonances
 std::vector<std::pair<lorentzVector,lorentzVector> > MuScleFitUtils::simPair; // Pairs of simulated muons making resonances
 
 // Smearing parameters

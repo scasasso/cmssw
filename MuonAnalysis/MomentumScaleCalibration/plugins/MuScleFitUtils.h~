@@ -26,8 +26,6 @@
 #include "MuonAnalysis/MomentumScaleCalibration/interface/BackgroundHandler.h"
 #include "MuonAnalysis/MomentumScaleCalibration/interface/ResolutionFunction.h"
 #include "MuonAnalysis/MomentumScaleCalibration/interface/Muon.h"
-#include "MuonAnalysis/MomentumScaleCalibration/interface/MuonPair.h"
-#include "MuonAnalysis/MomentumScaleCalibration/interface/GenMuonPair.h"
 
 #include <vector>
 
@@ -214,7 +212,6 @@ public:
   static std::vector<int> parorder;
 
   static std::vector<std::pair<lorentzVector,lorentzVector> > SavedPair;
-  static std::vector<std::pair<MuScleFitMuon,MuScleFitMuon> > SavedPairMuScleMuons;
   static std::vector<std::pair<lorentzVector,lorentzVector> > ReducedSavedPair;
   static std::vector<std::pair<lorentzVector,lorentzVector> > genPair;
   static std::vector<std::pair<lorentzVector,lorentzVector> > simPair;
