@@ -2409,43 +2409,43 @@ public:
 
 
 //
-// Curvature: (linear eta + sinusoidal in phi (both in 5 eta bins)) * global scale 
+// Curvature: (linear eta + sinusoidal in phi (both in 5 eta bins)) * global scale
 // ------------------------------------------------------------
 template <class T>
 class scaleFunctionType50 : public scaleFunctionBase<T> {
 public:
   scaleFunctionType50() { this->parNum_ = 27; }
-  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {
     double ampl(0), phase(0), twist(0), ampl2(0), freq2(0), phase2(0);
 
 // very bwd bin
     if ( eta  < parScale[4] ) {
       ampl = parScale[1]; phase = parScale[2]; ampl2 = parScale[21]; freq2 = parScale[22]; phase2 = parScale[23];
-      twist = parScale[3]*(eta-parScale[4])+parScale[7]*(parScale[4]-parScale[8])+parScale[11]*parScale[8]; 
+      twist = parScale[3]*(eta-parScale[4])+parScale[7]*(parScale[4]-parScale[8])+parScale[11]*parScale[8];
 // bwd bin
     } else if ( parScale[4] <= eta && eta < parScale[8] ) {
       ampl = parScale[5]; phase = parScale[6];
-      twist = parScale[7]*(eta-parScale[8])+parScale[11]*parScale[8] ; 
+      twist = parScale[7]*(eta-parScale[8])+parScale[11]*parScale[8] ;
 // barrel bin
     } else if ( parScale[8] <= eta && eta < parScale[12] ) {
       ampl = parScale[9]; phase = parScale[10];
-      twist = parScale[11]*eta; 
+      twist = parScale[11]*eta;
 // fwd bin
     } else if ( parScale[12] <= eta && eta < parScale[16] ) {
       ampl = parScale[13]; phase = parScale[14];
-      twist = parScale[15]*(eta-parScale[12])+parScale[11]*parScale[12]; 
+      twist = parScale[15]*(eta-parScale[12])+parScale[11]*parScale[12];
 // very fwd bin
     } else if ( parScale[16] < eta ) {
       ampl = parScale[17]; phase = parScale[18]; ampl2 = parScale[24]; freq2 = parScale[25]; phase2 = parScale[26];
-      twist = parScale[19]*(eta-parScale[16])+parScale[15]*(parScale[16]-parScale[12])+parScale[11]*parScale[12]; 
+      twist = parScale[19]*(eta-parScale[16])+parScale[15]*(parScale[16]-parScale[12])+parScale[11]*parScale[12];
     }
 
 // apply the correction
     double curv = (1.+parScale[0])*((double)chg/pt
-				    -twist
-				    -ampl*sin(phi+phase)
-				    -ampl2*sin((int)freq2*phi+phase2)
-				    -0.5*parScale[20]);
+                                    -twist
+                                    -ampl*sin(phi+phase)
+                                    -ampl2*sin((int)freq2*phi+phase2)
+                                    -0.5*parScale[20]);
     return 1./((double)chg*curv);
   }
   // Fill the scaleVec with neutral parameters
@@ -2458,25 +2458,25 @@ public:
   virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
                              TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
 
-    double thisStep[] = {0.000001, 
-			 0.000001, 0.01, 0.000001, 0.01,  
-			 0.000001, 0.01, 0.000001, 0.01, 
-			 0.000001, 0.01, 0.000001, 0.01, 
-			 0.000001, 0.01, 0.000001, 0.01, 
-			 0.000001, 0.01, 0.000001,
-			 0.000001,
-			 0.000001, 0.01, 0.01,
-			 0.000001, 0.01, 0.01}; 
+    double thisStep[] = {0.000001,
+                         0.000001, 0.01, 0.000001, 0.01,
+                         0.000001, 0.01, 0.000001, 0.01,
+                         0.000001, 0.01, 0.000001, 0.01,
+                         0.000001, 0.01, 0.000001, 0.01,
+                         0.000001, 0.01, 0.000001,
+                         0.000001,
+                         0.000001, 0.01, 0.01,
+                         0.000001, 0.01, 0.01};
 
-    TString thisParName[] = { "Curv global scale"    	
-			      , "Phi ampl eta vbwd"  , "Phi phase eta vbwd" , "Twist eta vbwd",   "vbwd/bwd bndry"
-			      , "Phi ampl eta  bwd"  , "Phi phase eta  bwd" , "Twist eta  bwd",   "bwd/bar bndry"   
-			      , "Phi ampl eta  bar"  , "Phi phase eta  bar" , "Twist eta  bar",   "bar/fwd bndry"  
-			      , "Phi ampl eta  fwd"  , "Phi phase eta  fwd" , "Twist eta  fwd",   "fwd/vfwd bndry"  
-			      , "Phi ampl eta vfwd"  , "Phi phase eta vfwd" , "Twist eta vfwd"
-			      , "Charge depend bias"
-			      , "Phi ampl eta vbwd (2nd harmon.)", "Phi freq. eta vbwd (2nd harmon.)", "Phi phase eta vbwd (2nd harmon.)"
-			      , "Phi ampl eta vfwd (2nd harmon.)", "Phi freq. eta vfwd (2nd harmon.)", "Phi phase eta vfwd (2nd harmon.)"};
+    TString thisParName[] = { "Curv global scale"
+                              , "Phi ampl eta vbwd"  , "Phi phase eta vbwd" , "Twist eta vbwd",   "vbwd/bwd bndry"
+                              , "Phi ampl eta  bwd"  , "Phi phase eta  bwd" , "Twist eta  bwd",   "bwd/bar bndry"
+                              , "Phi ampl eta  bar"  , "Phi phase eta  bar" , "Twist eta  bar",   "bar/fwd bndry"
+                              , "Phi ampl eta  fwd"  , "Phi phase eta  fwd" , "Twist eta  fwd",   "fwd/vfwd bndry"
+                              , "Phi ampl eta vfwd"  , "Phi phase eta vfwd" , "Twist eta vfwd"
+                              , "Charge depend bias"
+                              , "Phi ampl eta vbwd (2nd harmon.)", "Phi freq. eta vbwd (2nd harmon.)", "Phi phase eta vbwd (2nd harmon.)"
+                              , "Phi ampl eta vfwd (2nd harmon.)", "Phi freq. eta vfwd (2nd harmon.)", "Phi phase eta vfwd (2nd harmon.)"};
 
     if( muonType == 1 ) {
       double thisMini[] = {-0.1, -0.3, -3.1416, -0.3, -2.6, -0.3, -3.1416, -0.3, -2.6, -0.3, -3.1416, -0.3,  0.,  -0.3, -3.1416, -0.3,  0.  , -0.3, -3.1416, -0.3, -0.1, -0.3, 1., -3.1416, -0.3, 1., -3.1416};
@@ -2489,11 +2489,11 @@ public:
     }
   }
   virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
-			     const T & parScale, const std::vector<int> & parScaleOrder,
-			     const std::vector<double> & parStep,
-			     const std::vector<double> & parMin,
-			     const std::vector<double> & parMax,
-			     const int muonType)
+                             const T & parScale, const std::vector<int> & parScaleOrder,
+                             const std::vector<double> & parStep,
+                             const std::vector<double> & parMin,
+                             const std::vector<double> & parMax,
+                             const int muonType)
   {
     if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
       std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
@@ -2537,8 +2537,8 @@ public:
     std::cout << "setting parameters" << std::endl;
     for( int i=0; i<this->parNum_; ++i ) {
       std::cout << "parStep["<<i<<"] = " << parStep[i]
-		<< ", parMin["<<i<<"] = " << parMin[i]
-		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+                << ", parMin["<<i<<"] = " << parMin[i]
+                << ", parMax["<<i<<"] = " << parMin[i] << std::endl;
     }
     this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
   }
@@ -6977,6 +6977,148 @@ class backgroundFunctionType11 : public backgroundFunctionBase {
     }
     else {
       std::cout << "WARNING, backgroundFunctionType11: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
+      return (1.-0.97);
+    }
+  }
+};
+
+
+/// Exponential binned in eta (Z, Run2011AB 12Oct2013 Legacy ReReco)
+// --------------------------
+class backgroundFunctionType12 : public backgroundFunctionBase {
+ public:
+  backgroundFunctionType12(const double & lowerLimit, const double & upperLimit) :
+  backgroundFunctionBase(lowerLimit, upperLimit)
+  {
+    this->parNum_ = 2;
+  }
+  virtual double operator()( const double * parval, const double & mass, const double & eta ) const {return 0.;}
+  virtual double operator()( const double * parval, const double & mass, const double & eta1, const double & eta2 ) const
+  {
+    double Bgrp2 = 0.;
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0512353);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.0448482);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0193726);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (0.0225765);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0822936);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.0676357);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0591544);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0235858);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0317051);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.06139);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0747737);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0810139);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (0.0229602);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.0224212);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0446273);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0554561);
+    }
+    else {
+      std::cout << "WARNING, backgroundFunctionType12: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
+      return (-0.05);
+    }    
+    double norm = (exp(Bgrp2*upperLimit_) - exp(Bgrp2*lowerLimit_))/Bgrp2;
+    if( norm != 0 ) return exp(Bgrp2*mass)/norm;
+    else return 0.;
+
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname, const std::vector<double>::const_iterator & parBgrIt, const std::vector<int>::const_iterator & parBgrOrderIt, const int muonType) {
+    double thisStep[] = {0.01, 0.01};
+    TString thisParName[] = {"Bgr fraction", "Bgr slope"};
+    if( muonType == 1 ) {
+      double thisMini[] = {-1.0, 10.};
+      double thisMaxi[] = {1.0 , 10.};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parBgrIt, parBgrOrderIt, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {-1.0, 10.};
+      double thisMaxi[] = { 1.0, 10.};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parBgrIt, parBgrOrderIt, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+
+  virtual double fracVsEta(const double * parval, const double & eta1, const double & eta2) const
+  {
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.966316);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.966875);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.955311);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.928771);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.983255);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.982203);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.972127);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.962929);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.965597);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.969461);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.979922);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.984247);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.934252);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.952914);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.960191);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.966175);
+    }
+    else {
+      std::cout << "WARNING, backgroundFunctionType12: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
       return (1.-0.97);
     }
   }

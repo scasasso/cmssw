@@ -208,6 +208,7 @@ backgroundFunctionBase * backgroundFunctionService( const int identifier, const 
   case ( 9 ):  return new backgroundFunctionType9(lowerLimit, upperLimit); break; //Gul
   case ( 10 ): return new backgroundFunctionType10(lowerLimit, upperLimit); break; //Gul
   case ( 11 ): return new backgroundFunctionType11(lowerLimit, upperLimit); break; // SC
+  case ( 12 ): return new backgroundFunctionType12(lowerLimit, upperLimit); break; // SC
   default: std::cout << "Error: undefined background function type = " << identifier << std::endl; exit(1); break;
   }
 }

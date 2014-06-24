@@ -303,6 +303,7 @@ class MuScleFit: public edm::EDLooper, MuScleFitBase
   std::string triggerResultsProcess_;
   std::vector<std::string> triggerPath_;
   bool negateTrigger_;
+  bool validationMode_;
   bool saveAllToTree_;
 
   std::auto_ptr<MuScleFitMuonSelector> muonSelector_;
@@ -468,6 +469,7 @@ MuScleFit::MuScleFit( const edm::ParameterSet& pset ) :
   triggerResultsProcess_ = pset.getUntrackedParameter<std::string>("TriggerResultsProcess");
   triggerPath_ = pset.getUntrackedParameter<std::vector<std::string> >("TriggerPath");
   negateTrigger_ = pset.getUntrackedParameter<bool>("NegateTrigger", false);
+  validationMode_ = pset.getUntrackedParameter<bool>("ValidationMode", false);
   saveAllToTree_ = pset.getUntrackedParameter<bool>("SaveAllToTree", false);
 
   PATmuons_ = pset.getUntrackedParameter<bool>("PATmuons", false);
@@ -535,25 +537,46 @@ MuScleFit::MuScleFit( const edm::ParameterSet& pset ) :
 
   // Initialize ResMaxSigma And ResHalfWidth - 0 = global, 1 = SM, 2 = tracker
   // -------------------------------------------------------------------------
-  MuScleFitUtils::massWindowHalfWidth[0][0] = 20.;
-  MuScleFitUtils::massWindowHalfWidth[0][1] = 0.35;
-  MuScleFitUtils::massWindowHalfWidth[0][2] = 0.35;
-  MuScleFitUtils::massWindowHalfWidth[0][3] = 0.35;
-  MuScleFitUtils::massWindowHalfWidth[0][4] = 0.2;
-  MuScleFitUtils::massWindowHalfWidth[0][5] = 0.2;  
-  MuScleFitUtils::massWindowHalfWidth[1][0] = 20.;  
-  MuScleFitUtils::massWindowHalfWidth[1][1] = 0.35; 
-  MuScleFitUtils::massWindowHalfWidth[1][2] = 0.35; 
-  MuScleFitUtils::massWindowHalfWidth[1][3] = 0.35; 
-  MuScleFitUtils::massWindowHalfWidth[1][4] = 0.2;  
-  MuScleFitUtils::massWindowHalfWidth[1][5] = 0.2;  
-  MuScleFitUtils::massWindowHalfWidth[2][0] = 20.;
-  MuScleFitUtils::massWindowHalfWidth[2][1] = 0.35;
-  MuScleFitUtils::massWindowHalfWidth[2][2] = 0.35;
-  MuScleFitUtils::massWindowHalfWidth[2][3] = 0.35;
-  MuScleFitUtils::massWindowHalfWidth[2][4] = 0.2;
-  MuScleFitUtils::massWindowHalfWidth[2][5] = 0.2;
-
+  if (!validationMode_){
+    MuScleFitUtils::massWindowHalfWidth[0][0] = 20.;
+    MuScleFitUtils::massWindowHalfWidth[0][1] = 0.35;
+    MuScleFitUtils::massWindowHalfWidth[0][2] = 0.35;
+    MuScleFitUtils::massWindowHalfWidth[0][3] = 0.35;
+    MuScleFitUtils::massWindowHalfWidth[0][4] = 0.2;
+    MuScleFitUtils::massWindowHalfWidth[0][5] = 0.2;  
+    MuScleFitUtils::massWindowHalfWidth[1][0] = 20.;  
+    MuScleFitUtils::massWindowHalfWidth[1][1] = 0.35; 
+    MuScleFitUtils::massWindowHalfWidth[1][2] = 0.35; 
+    MuScleFitUtils::massWindowHalfWidth[1][3] = 0.35; 
+    MuScleFitUtils::massWindowHalfWidth[1][4] = 0.2;  
+    MuScleFitUtils::massWindowHalfWidth[1][5] = 0.2;  
+    MuScleFitUtils::massWindowHalfWidth[2][0] = 20.;
+    MuScleFitUtils::massWindowHalfWidth[2][1] = 0.35;
+    MuScleFitUtils::massWindowHalfWidth[2][2] = 0.35;
+    MuScleFitUtils::massWindowHalfWidth[2][3] = 0.35;
+    MuScleFitUtils::massWindowHalfWidth[2][4] = 0.2;
+    MuScleFitUtils::massWindowHalfWidth[2][5] = 0.2;
+  }else{
+    MuScleFitUtils::massWindowHalfWidth[0][0] = 30.;
+    MuScleFitUtils::massWindowHalfWidth[0][1] = 4.;
+    MuScleFitUtils::massWindowHalfWidth[0][2] = 4.;
+    MuScleFitUtils::massWindowHalfWidth[0][3] = 4.;
+    MuScleFitUtils::massWindowHalfWidth[0][4] = 0.2;
+    MuScleFitUtils::massWindowHalfWidth[0][5] = 0.2;  
+    MuScleFitUtils::massWindowHalfWidth[1][0] = 30.;  
+    MuScleFitUtils::massWindowHalfWidth[1][1] = 4.; 
+    MuScleFitUtils::massWindowHalfWidth[1][2] = 4.; 
+    MuScleFitUtils::massWindowHalfWidth[1][3] = 4.; 
+    MuScleFitUtils::massWindowHalfWidth[1][4] = 0.2;  
+    MuScleFitUtils::massWindowHalfWidth[1][5] = 0.2;  
+    MuScleFitUtils::massWindowHalfWidth[2][0] = 30.;
+    MuScleFitUtils::massWindowHalfWidth[2][1] = 4.;
+    MuScleFitUtils::massWindowHalfWidth[2][2] = 4.;
+    MuScleFitUtils::massWindowHalfWidth[2][3] = 4.;
+    MuScleFitUtils::massWindowHalfWidth[2][4] = 0.2;
+    MuScleFitUtils::massWindowHalfWidth[2][5] = 0.2;
+  }
+  
   muonSelector_.reset(new MuScleFitMuonSelector(theMuonLabel_, theMuonType_, PATmuons_,
 						MuScleFitUtils::resfind,
 						MuScleFitUtils::speedup, genParticlesName_,

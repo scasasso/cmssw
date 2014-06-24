@@ -77,7 +77,7 @@ void MuScleFitPlotter::fillGen(const reco::GenParticleCollection* genParticles, 
         if( momPdgId == 443 || momPdgId == 100443 ) mothersFound[5] = 1;
         if( momPdgId == 553 || momPdgId == 100553 || momPdgId == 200553 ) mothersFound[3] = 1;
 	mapHisto["hGenMu"]->Fill(mcIter->p4());
-	std::cout<<"genmu "<<mcIter->p4()<<std::endl;
+	//std::cout<<"genmu "<<mcIter->p4()<<std::endl;
 	if(mcIter->charge()>0){
 	  muFromRes.first = mcIter->p4();
 	  // prova = true;
@@ -88,7 +88,7 @@ void MuScleFitPlotter::fillGen(const reco::GenParticleCollection* genParticles, 
     if( status==1 && pdgId==13 && PATmuons) {
       mothersFound[5] = 1;
       mapHisto["hGenMu"]->Fill(mcIter->p4());
-      std::cout<<"genmu "<<mcIter->p4()<<std::endl;
+      //std::cout<<"genmu "<<mcIter->p4()<<std::endl;
       if(mcIter->charge()>0){
 	muFromRes.first = mcIter->p4();
 	// prova = true;
