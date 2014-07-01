@@ -164,6 +164,7 @@ int MuScleFitUtils::counter_resprob = 0;
 std::vector<std::vector<double> > MuScleFitUtils::parvalue;
 
 int MuScleFitUtils::FitStrategy = 1; // Strategy in likelihood fit (1 or 2)
+double MuScleFitUtils::MinuitTolerance = 0.1; // Default is 0.1
 bool MuScleFitUtils::speedup = false; // Whether to cut corners (no sim study, fewer histos)
 
 std::vector<std::pair<lorentzVector,lorentzVector> > MuScleFitUtils::SavedPair; // Pairs of reconstructed muons making resonances
@@ -1494,7 +1495,7 @@ void MuScleFitUtils::minimizeLikelihood()
       // Maximum number of iterations
       arglis[0] = 100000;
       // tolerance 
-      arglis[1] = 0.0001;
+      arglis[1] = MinuitTolerance;
 
       // Run simplex first to get an initial estimate of the minimum
       if( startWithSimplex_ ) {

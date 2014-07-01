@@ -194,6 +194,7 @@ public:
   static std::vector<int> parBgrOrder;
   static std::vector<int> resfind;
   static int FitStrategy;
+  static double MinuitTolerance;
   static bool speedup;       // parameter set by MuScleFit - whether to speedup processing
   static double x[7][10000]; // smearing values set by MuScleFit constructor
   static int goodmuon;       // number of events with a usable resonance

@@ -454,8 +454,9 @@ MuScleFit::MuScleFit( const edm::ParameterSet& pset ) :
   MuScleFitUtils::parCrossSectionOrder = pset.getParameter<std::vector<int> >("parCrossSectionOrder");
   MuScleFitUtils::parBgrOrder          = pset.getParameter<std::vector<int> >("parBgrOrder");
 
-  MuScleFitUtils::resfind     = pset.getParameter<std::vector<int> >("resfind");
-  MuScleFitUtils::FitStrategy = pset.getParameter<int>("FitStrategy");
+  MuScleFitUtils::resfind         = pset.getParameter<std::vector<int> >("resfind");
+  MuScleFitUtils::FitStrategy     = pset.getParameter<int>("FitStrategy");
+  MuScleFitUtils::MinuitTolerance = pset.getUntrackedParameter<double>("MinuitTolerance",0.1);
 
   // Option to skip unnecessary stuff
   // --------------------------------
