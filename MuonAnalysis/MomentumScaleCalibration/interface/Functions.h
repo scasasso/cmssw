@@ -3202,8 +3202,7 @@ public:
                              TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
 
     double thisStep[] = {
-      0.000001, 
-            0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002
+      0.002, 0.002, 0.002
     }; 
 
     TString thisParName[] = { 
@@ -3261,6 +3260,200 @@ public:
   }
 
 };
+
+
+
+//
+// Curvature: energy loss (different binning, based on material budget, i.e. fig. 2 TRK-11-001)
+// ------------------------------------------------------------
+template <class T>
+class scaleFunctionType56 : public scaleFunctionBase<T> {
+public:
+  scaleFunctionType56() { 
+    this->parNum_ = 3; 
+  }
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+    double A(0);
+    
+    if ( fabs(eta)<0.9 ) A = parScale[0];
+    else if ( fabs(eta) < 1.6 ) A = parScale[1];
+    else if ( fabs(eta) < 2.4 ) A = parScale[2];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+    
+    // apply the correction
+    double curv = (double)chg/pt;
+    return 1./((double)chg*(curv+(double)chg*curv*curv*A));
+  }
+  // Fill the scaleVec with neutral parameters
+  virtual void resetParameters(std::vector<double> * scaleVec) const {
+    //    scaleVec->push_back(1);
+    for( int i=0; i<this->parNum_; ++i ) {
+      scaleVec->push_back(0);
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
+                             TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
+
+    double thisStep[] = {
+      0.01, 0.01, 0.01
+    }; 
+
+    TString thisParName[] = { 
+      "ELoss |eta|<0.9", "ELoss 0.9<|eta|<1.6", "ELoss 1.6<|eta|<2.4"
+    };
+
+    if( muonType == 1 ) {
+      double thisMini[] = {
+	-0.1, -0.1, -0.1
+      };
+      double thisMaxi[] = {
+	0.1, 0.1, 0.1
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {
+	-0.1, -0.1, -0.1
+      };
+      double thisMaxi[] = {
+	0.1, 0.1, 0.1
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
+			     const T & parScale, const std::vector<int> & parScaleOrder,
+			     const std::vector<double> & parStep,
+			     const std::vector<double> & parMin,
+			     const std::vector<double> & parMax,
+			     const int muonType)
+  {
+    if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
+      std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
+      std::cout << "parNum = " << this->parNum_ << std::endl;
+      std::cout << "parStep.size() = " << parStep.size() << std::endl;
+      std::cout << "parMin.size() = " << parMin.size() << std::endl;
+      std::cout << "parMax.size() = " << parMax.size() << std::endl;
+      exit(1);
+    }
+    std::vector<ParameterSet> parSet(this->parNum_);
+    // name, step, mini, maxi
+    parSet[0]  = ParameterSet( "ELoss |eta|<0.9",   parStep[0], parMin[0], parMax[0] );
+    parSet[1]  = ParameterSet( "ELoss 0.9<|eta|<1.6",   parStep[1], parMin[1], parMax[1] );
+    parSet[2]  = ParameterSet( "ELoss 1.6<|eta|<2.4",   parStep[2], parMin[2], parMax[2] );
+
+
+
+    std::cout << "setting parameters" << std::endl;
+    for( int i=0; i<this->parNum_; ++i ) {
+      std::cout << "parStep["<<i<<"] = " << parStep[i]
+		<< ", parMin["<<i<<"] = " << parMin[i]
+		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+    }
+    this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
+  }
+
+};
+
+
+//
+// Curvature: energy loss (same as 55, but one more central bin added)
+// ------------------------------------------------------------
+template <class T>
+class scaleFunctionType57 : public scaleFunctionBase<T> {
+public:
+  scaleFunctionType57() { 
+    this->parNum_ = 4; 
+  }
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+    double A(0);
+    
+    if ( fabs(eta)<0.9 ) A = parScale[0];
+    else if ( fabs(eta)<1.5 ) A = parScale[1];
+    else if ( fabs(eta) < 2.1 ) A = parScale[2];
+    else if ( fabs(eta) < 2.4 ) A = parScale[3];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+    
+    // apply the correction
+    double curv = (double)chg/pt;
+    return 1./((double)chg*(curv+(double)chg*curv*curv*A));
+  }
+  // Fill the scaleVec with neutral parameters
+  virtual void resetParameters(std::vector<double> * scaleVec) const {
+    //    scaleVec->push_back(1);
+    for( int i=0; i<this->parNum_; ++i ) {
+      scaleVec->push_back(0);
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
+                             TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
+
+    double thisStep[] = {
+      0.01, 0.01, 0.01, 0.01
+    }; 
+
+    TString thisParName[] = { 
+      "ELoss |eta|<0.9", "ELoss 0.9<|eta|<1.5", "ELoss 1.5<|eta|<2.1", "ELoss 2.1<|eta|<2.4"
+    };
+
+    if( muonType == 1 ) {
+      double thisMini[] = {
+	-0.1, -0.1, -0.1, -0.1
+      };
+      double thisMaxi[] = {
+	0.1, 0.1, 0.1, 0.1
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {
+	-0.1, -0.1, -0.1, -0.1
+      };
+      double thisMaxi[] = {
+	0.1, 0.1, 0.1, 0.1
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
+			     const T & parScale, const std::vector<int> & parScaleOrder,
+			     const std::vector<double> & parStep,
+			     const std::vector<double> & parMin,
+			     const std::vector<double> & parMax,
+			     const int muonType)
+  {
+    if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
+      std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
+      std::cout << "parNum = " << this->parNum_ << std::endl;
+      std::cout << "parStep.size() = " << parStep.size() << std::endl;
+      std::cout << "parMin.size() = " << parMin.size() << std::endl;
+      std::cout << "parMax.size() = " << parMax.size() << std::endl;
+      exit(1);
+    }
+    std::vector<ParameterSet> parSet(this->parNum_);
+    // name, step, mini, maxi
+    parSet[0]  = ParameterSet( "ELoss |eta|<0.9",   parStep[0], parMin[0], parMax[0] );
+    parSet[1]  = ParameterSet( "ELoss 0.9<|eta|<1.5",   parStep[1], parMin[1], parMax[1] );
+    parSet[2]  = ParameterSet( "ELoss 1.5<|eta|<2.1",   parStep[2], parMin[2], parMax[2] );
+    parSet[3]  = ParameterSet( "ELoss 2.1<|eta|<2.4",   parStep[3], parMin[3], parMax[3] );
+
+
+
+    std::cout << "setting parameters" << std::endl;
+    for( int i=0; i<this->parNum_; ++i ) {
+      std::cout << "parStep["<<i<<"] = " << parStep[i]
+		<< ", parMin["<<i<<"] = " << parMin[i]
+		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+    }
+    this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
+  }
+
+};
+
 
 
 
