@@ -3456,6 +3456,456 @@ public:
 
 
 
+//
+// Curvature: 3rd attemp for a binned function. More bins in phi, more bins in eta
+// ------------------------------------------------------------
+template <class T>
+class scaleFunctionType58 : public scaleFunctionBase<T> {
+public:
+  scaleFunctionType58() { 
+    this->parNum_ = 177; 
+  }
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+    double deltaK(0);
+    double p0 = parScale[0];
+    
+    
+    if ( eta<-2.3 && eta>-2.4 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[1];
+    else if ( eta<-2.3 && eta>-2.4 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[2];
+    else if ( eta<-2.3 && eta>-2.4 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[3];
+    else if ( eta<-2.3 && eta>-2.4 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[4];
+    else if ( eta<-2.3 && eta>-2.4 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[5];
+    else if ( eta<-2.3 && eta>-2.4 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[6];
+    else if ( eta<-2.3 && eta>-2.4 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[7];
+    else if ( eta<-2.3 && eta>-2.4 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[8];
+    else if ( eta<-2.3 && eta>-2.4 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[9];
+    else if ( eta<-2.3 && eta>-2.4 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[10];
+    else if ( eta<-2.3 && eta>-2.4 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[11];
+    else if ( eta<-2.3 && eta>-2.4 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[12];
+    else if ( eta<-2.3 && eta>-2.4 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[13];
+    else if ( eta<-2.3 && eta>-2.4 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[14];
+    else if ( eta<-2.3 && eta>-2.4 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[15];
+    else if ( eta<-2.3 && eta>-2.4 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[16];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[17];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[18];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[19];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[20];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[21];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[22];
+    else if ( eta<-2.2 && eta>-2.3 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[23];
+    else if ( eta<-2.2 && eta>-2.3 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[24];
+    else if ( eta<-2.2 && eta>-2.3 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[25];
+    else if ( eta<-2.2 && eta>-2.3 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[26];
+    else if ( eta<-2.2 && eta>-2.3 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[27];
+    else if ( eta<-2.2 && eta>-2.3 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[28];
+    else if ( eta<-2.2 && eta>-2.3 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[29];
+    else if ( eta<-2.2 && eta>-2.3 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[30];
+    else if ( eta<-2.2 && eta>-2.3 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[31];
+    else if ( eta<-2.2 && eta>-2.3 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[32];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[33];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[34];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[35];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[36];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[37];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[38];
+    else if ( eta<-2.1 && eta>-2.2 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[39];
+    else if ( eta<-2.1 && eta>-2.2 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[40];
+    else if ( eta<-2.1 && eta>-2.2 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[41];
+    else if ( eta<-2.1 && eta>-2.2 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[42];
+    else if ( eta<-2.1 && eta>-2.2 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[43];
+    else if ( eta<-2.1 && eta>-2.2 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[44];
+    else if ( eta<-2.1 && eta>-2.2 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[45];
+    else if ( eta<-2.1 && eta>-2.2 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[46];
+    else if ( eta<-2.1 && eta>-2.2 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[47];
+    else if ( eta<-2.1 && eta>-2.2 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[48];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[49];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[50];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[51];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[52];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[53];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[54];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[55];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[56];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[57];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[58];
+    else if ( eta<-1.5 && eta>-2.1 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[59];
+    else if ( eta<-1.5 && eta>-2.1 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[60];
+    else if ( eta<-1.5 && eta>-2.1 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[61];
+    else if ( eta<-1.5 && eta>-2.1 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[62];
+    else if ( eta<-1.5 && eta>-2.1 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[63];
+    else if ( eta<-1.5 && eta>-2.1 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[64];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[65];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[66];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[67];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[68];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[69];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[70];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[71];
+    else if ( eta<-0.9 && eta>-1.5 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[72];
+    else if ( eta<-0.9 && eta>-1.5 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[73];
+    else if ( eta<-0.9 && eta>-1.5 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[74];
+    else if ( eta<-0.9 && eta>-1.5 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[75];
+    else if ( eta<-0.9 && eta>-1.5 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[76];
+    else if ( eta<-0.9 && eta>-1.5 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[77];
+    else if ( eta<-0.9 && eta>-1.5 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[78];
+    else if ( eta<-0.9 && eta>-1.5 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[79];
+    else if ( eta<-0.9 && eta>-1.5 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[80];
+    else if ( eta<0.9 && eta>-0.9 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[81];
+    else if ( eta<0.9 && eta>-0.9 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[82];
+    else if ( eta<0.9 && eta>-0.9 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[83];
+    else if ( eta<0.9 && eta>-0.9 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[84];
+    else if ( eta<0.9 && eta>-0.9 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[85];
+    else if ( eta<0.9 && eta>-0.9 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[86];
+    else if ( eta<0.9 && eta>-0.9 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[87];
+    else if ( eta<0.9 && eta>-0.9 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[88];
+    else if ( eta<0.9 && eta>-0.9 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[89];
+    else if ( eta<0.9 && eta>-0.9 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[90];
+    else if ( eta<0.9 && eta>-0.9 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[91];
+    else if ( eta<0.9 && eta>-0.9 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[92];
+    else if ( eta<0.9 && eta>-0.9 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[93];
+    else if ( eta<0.9 && eta>-0.9 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[94];
+    else if ( eta<0.9 && eta>-0.9 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[95];
+    else if ( eta<0.9 && eta>-0.9 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[96];
+    else if ( eta<1.5 && eta>0.9 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[97];
+    else if ( eta<1.5 && eta>0.9 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[98];
+    else if ( eta<1.5 && eta>0.9 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[99];
+    else if ( eta<1.5 && eta>0.9 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[100];
+    else if ( eta<1.5 && eta>0.9 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[101];
+    else if ( eta<1.5 && eta>0.9 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[102];
+    else if ( eta<1.5 && eta>0.9 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[103];
+    else if ( eta<1.5 && eta>0.9 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[104];
+    else if ( eta<1.5 && eta>0.9 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[105];
+    else if ( eta<1.5 && eta>0.9 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[106];
+    else if ( eta<1.5 && eta>0.9 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[107];
+    else if ( eta<1.5 && eta>0.9 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[108];
+    else if ( eta<1.5 && eta>0.9 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[109];
+    else if ( eta<1.5 && eta>0.9 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[110];
+    else if ( eta<1.5 && eta>0.9 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[111];
+    else if ( eta<1.5 && eta>0.9 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[112];
+    else if ( eta<2.1 && eta>1.5 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[113];
+    else if ( eta<2.1 && eta>1.5 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[114];
+    else if ( eta<2.1 && eta>1.5 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[115];
+    else if ( eta<2.1 && eta>1.5 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[116];
+    else if ( eta<2.1 && eta>1.5 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[117];
+    else if ( eta<2.1 && eta>1.5 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[118];
+    else if ( eta<2.1 && eta>1.5 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[119];
+    else if ( eta<2.1 && eta>1.5 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[120];
+    else if ( eta<2.1 && eta>1.5 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[121];
+    else if ( eta<2.1 && eta>1.5 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[122];
+    else if ( eta<2.1 && eta>1.5 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[123];
+    else if ( eta<2.1 && eta>1.5 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[124];
+    else if ( eta<2.1 && eta>1.5 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[125];
+    else if ( eta<2.1 && eta>1.5 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[126];
+    else if ( eta<2.1 && eta>1.5 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[127];
+    else if ( eta<2.1 && eta>1.5 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[128];
+    else if ( eta<2.2 && eta>2.1 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[129];
+    else if ( eta<2.2 && eta>2.1 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[130];
+    else if ( eta<2.2 && eta>2.1 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[131];
+    else if ( eta<2.2 && eta>2.1 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[132];
+    else if ( eta<2.2 && eta>2.1 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[133];
+    else if ( eta<2.2 && eta>2.1 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[134];
+    else if ( eta<2.2 && eta>2.1 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[135];
+    else if ( eta<2.2 && eta>2.1 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[136];
+    else if ( eta<2.2 && eta>2.1 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[137];
+    else if ( eta<2.2 && eta>2.1 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[138];
+    else if ( eta<2.2 && eta>2.1 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[139];
+    else if ( eta<2.2 && eta>2.1 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[140];
+    else if ( eta<2.2 && eta>2.1 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[141];
+    else if ( eta<2.2 && eta>2.1 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[142];
+    else if ( eta<2.2 && eta>2.1 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[143];
+    else if ( eta<2.2 && eta>2.1 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[144];
+    else if ( eta<2.3 && eta>2.2 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[145];
+    else if ( eta<2.3 && eta>2.2 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[146];
+    else if ( eta<2.3 && eta>2.2 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[147];
+    else if ( eta<2.3 && eta>2.2 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[148];
+    else if ( eta<2.3 && eta>2.2 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[149];
+    else if ( eta<2.3 && eta>2.2 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[150];
+    else if ( eta<2.3 && eta>2.2 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[151];
+    else if ( eta<2.3 && eta>2.2 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[152];
+    else if ( eta<2.3 && eta>2.2 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[153];
+    else if ( eta<2.3 && eta>2.2 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[154];
+    else if ( eta<2.3 && eta>2.2 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[155];
+    else if ( eta<2.3 && eta>2.2 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[156];
+    else if ( eta<2.3 && eta>2.2 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[157];
+    else if ( eta<2.3 && eta>2.2 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[158];
+    else if ( eta<2.3 && eta>2.2 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[159];
+    else if ( eta<2.3 && eta>2.2 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[160];
+    else if ( eta<2.4 && eta>2.3 && phi<-2.74889357189 && phi>-3.14159265359 ) deltaK = parScale[161];
+    else if ( eta<2.4 && eta>2.3 && phi<-2.35619449019 && phi>-2.74889357189 ) deltaK = parScale[162];
+    else if ( eta<2.4 && eta>2.3 && phi<-1.96349540849 && phi>-2.35619449019 ) deltaK = parScale[163];
+    else if ( eta<2.4 && eta>2.3 && phi<-1.57079632679 && phi>-1.96349540849 ) deltaK = parScale[164];
+    else if ( eta<2.4 && eta>2.3 && phi<-1.1780972451 && phi>-1.57079632679 ) deltaK = parScale[165];
+    else if ( eta<2.4 && eta>2.3 && phi<-0.785398163397 && phi>-1.1780972451 ) deltaK = parScale[166];
+    else if ( eta<2.4 && eta>2.3 && phi<-0.392699081699 && phi>-0.785398163397 ) deltaK = parScale[167];
+    else if ( eta<2.4 && eta>2.3 && phi<0.0 && phi>-0.392699081699 ) deltaK = parScale[168];
+    else if ( eta<2.4 && eta>2.3 && phi<0.392699081699 && phi>0.0 ) deltaK = parScale[169];
+    else if ( eta<2.4 && eta>2.3 && phi<0.785398163397 && phi>0.392699081699 ) deltaK = parScale[170];
+    else if ( eta<2.4 && eta>2.3 && phi<1.1780972451 && phi>0.785398163397 ) deltaK = parScale[171];
+    else if ( eta<2.4 && eta>2.3 && phi<1.57079632679 && phi>1.1780972451 ) deltaK = parScale[172];
+    else if ( eta<2.4 && eta>2.3 && phi<1.96349540849 && phi>1.57079632679 ) deltaK = parScale[173];
+    else if ( eta<2.4 && eta>2.3 && phi<2.35619449019 && phi>1.96349540849 ) deltaK = parScale[174];
+    else if ( eta<2.4 && eta>2.3 && phi<2.74889357189 && phi>2.35619449019 ) deltaK = parScale[175];
+    else if ( eta<2.4 && eta>2.3 && phi<3.14159265359 && phi>2.74889357189 ) deltaK = parScale[176];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+    
+    // apply the correction
+    double curv = (double)chg/pt;
+    return 1./((double)chg*(1+p0)*(curv+deltaK));
+  }
+  // Fill the scaleVec with neutral parameters
+  virtual void resetParameters(std::vector<double> * scaleVec) const {
+    //    scaleVec->push_back(1);
+    for( int i=0; i<this->parNum_; ++i ) {
+      scaleVec->push_back(0);
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
+                             TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
+
+    double thisStep[] = {
+      0.000001, 
+            0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002
+    }; 
+
+    TString thisParName[] = { 
+      "Curv global scale", 
+            "deltaK bin1", "deltaK bin2", "deltaK bin3", "deltaK bin4", "deltaK bin5", "deltaK bin6", "deltaK bin7", "deltaK bin8", "deltaK bin9", "deltaK bin10", "deltaK bin11", "deltaK bin12", "deltaK bin13", "deltaK bin14", "deltaK bin15", "deltaK bin16", "deltaK bin17", "deltaK bin18", "deltaK bin19", "deltaK bin20", "deltaK bin21", "deltaK bin22", "deltaK bin23", "deltaK bin24", "deltaK bin25", "deltaK bin26", "deltaK bin27", "deltaK bin28", "deltaK bin29", "deltaK bin30", "deltaK bin31", "deltaK bin32", "deltaK bin33", "deltaK bin34", "deltaK bin35", "deltaK bin36", "deltaK bin37", "deltaK bin38", "deltaK bin39", "deltaK bin40", "deltaK bin41", "deltaK bin42", "deltaK bin43", "deltaK bin44", "deltaK bin45", "deltaK bin46", "deltaK bin47", "deltaK bin48", "deltaK bin49", "deltaK bin50", "deltaK bin51", "deltaK bin52", "deltaK bin53", "deltaK bin54", "deltaK bin55", "deltaK bin56", "deltaK bin57", "deltaK bin58", "deltaK bin59", "deltaK bin60", "deltaK bin61", "deltaK bin62", "deltaK bin63", "deltaK bin64", "deltaK bin65", "deltaK bin66", "deltaK bin67", "deltaK bin68", "deltaK bin69", "deltaK bin70", "deltaK bin71", "deltaK bin72", "deltaK bin73", "deltaK bin74", "deltaK bin75", "deltaK bin76", "deltaK bin77", "deltaK bin78", "deltaK bin79", "deltaK bin80", "deltaK bin81", "deltaK bin82", "deltaK bin83", "deltaK bin84", "deltaK bin85", "deltaK bin86", "deltaK bin87", "deltaK bin88", "deltaK bin89", "deltaK bin90", "deltaK bin91", "deltaK bin92", "deltaK bin93", "deltaK bin94", "deltaK bin95", "deltaK bin96", "deltaK bin97", "deltaK bin98", "deltaK bin99", "deltaK bin100", "deltaK bin101", "deltaK bin102", "deltaK bin103", "deltaK bin104", "deltaK bin105", "deltaK bin106", "deltaK bin107", "deltaK bin108", "deltaK bin109", "deltaK bin110", "deltaK bin111", "deltaK bin112", "deltaK bin113", "deltaK bin114", "deltaK bin115", "deltaK bin116", "deltaK bin117", "deltaK bin118", "deltaK bin119", "deltaK bin120", "deltaK bin121", "deltaK bin122", "deltaK bin123", "deltaK bin124", "deltaK bin125", "deltaK bin126", "deltaK bin127", "deltaK bin128", "deltaK bin129", "deltaK bin130", "deltaK bin131", "deltaK bin132", "deltaK bin133", "deltaK bin134", "deltaK bin135", "deltaK bin136", "deltaK bin137", "deltaK bin138", "deltaK bin139", "deltaK bin140", "deltaK bin141", "deltaK bin142", "deltaK bin143", "deltaK bin144", "deltaK bin145", "deltaK bin146", "deltaK bin147", "deltaK bin148", "deltaK bin149", "deltaK bin150", "deltaK bin151", "deltaK bin152", "deltaK bin153", "deltaK bin154", "deltaK bin155", "deltaK bin156", "deltaK bin157", "deltaK bin158", "deltaK bin159", "deltaK bin160", "deltaK bin161", "deltaK bin162", "deltaK bin163", "deltaK bin164", "deltaK bin165", "deltaK bin166", "deltaK bin167", "deltaK bin168", "deltaK bin169", "deltaK bin170", "deltaK bin171", "deltaK bin172", "deltaK bin173", "deltaK bin174", "deltaK bin175", "deltaK bin176"
+    };
+
+    if( muonType == 1 ) {
+      double thisMini[] = {
+	-0.1,
+	-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01
+      };
+      double thisMaxi[] = {
+	0.1,
+	0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {
+	-0.1,
+	-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01
+      };
+      double thisMaxi[] = {
+	0.1,
+	0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
+			     const T & parScale, const std::vector<int> & parScaleOrder,
+			     const std::vector<double> & parStep,
+			     const std::vector<double> & parMin,
+			     const std::vector<double> & parMax,
+			     const int muonType)
+  {
+    if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
+      std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
+      std::cout << "parNum = " << this->parNum_ << std::endl;
+      std::cout << "parStep.size() = " << parStep.size() << std::endl;
+      std::cout << "parMin.size() = " << parMin.size() << std::endl;
+      std::cout << "parMax.size() = " << parMax.size() << std::endl;
+      exit(1);
+    }
+    std::vector<ParameterSet> parSet(this->parNum_);
+    // name, step, mini, maxi
+    parSet[0]  = ParameterSet( "Curv global scale",   parStep[0], parMin[0], parMax[0] );
+    parSet[1]  = ParameterSet( "deltaK bin1",   parStep[1], parMin[1], parMax[1] );
+    parSet[2]  = ParameterSet( "deltaK bin2",   parStep[2], parMin[2], parMax[2] );
+    parSet[3]  = ParameterSet( "deltaK bin3",   parStep[3], parMin[3], parMax[3] );
+    parSet[4]  = ParameterSet( "deltaK bin4",   parStep[4], parMin[4], parMax[4] );
+    parSet[5]  = ParameterSet( "deltaK bin5",   parStep[5], parMin[5], parMax[5] );
+    parSet[6]  = ParameterSet( "deltaK bin6",   parStep[6], parMin[6], parMax[6] );
+    parSet[7]  = ParameterSet( "deltaK bin7",   parStep[7], parMin[7], parMax[7] );
+    parSet[8]  = ParameterSet( "deltaK bin8",   parStep[8], parMin[8], parMax[8] );
+    parSet[9]  = ParameterSet( "deltaK bin9",   parStep[9], parMin[9], parMax[9] );
+    parSet[10]  = ParameterSet( "deltaK bin10",   parStep[10], parMin[10], parMax[10] );
+    parSet[11]  = ParameterSet( "deltaK bin11",   parStep[11], parMin[11], parMax[11] );
+    parSet[12]  = ParameterSet( "deltaK bin12",   parStep[12], parMin[12], parMax[12] );
+    parSet[13]  = ParameterSet( "deltaK bin13",   parStep[13], parMin[13], parMax[13] );
+    parSet[14]  = ParameterSet( "deltaK bin14",   parStep[14], parMin[14], parMax[14] );
+    parSet[15]  = ParameterSet( "deltaK bin15",   parStep[15], parMin[15], parMax[15] );
+    parSet[16]  = ParameterSet( "deltaK bin16",   parStep[16], parMin[16], parMax[16] );
+    parSet[17]  = ParameterSet( "deltaK bin17",   parStep[17], parMin[17], parMax[17] );
+    parSet[18]  = ParameterSet( "deltaK bin18",   parStep[18], parMin[18], parMax[18] );
+    parSet[19]  = ParameterSet( "deltaK bin19",   parStep[19], parMin[19], parMax[19] );
+    parSet[20]  = ParameterSet( "deltaK bin20",   parStep[20], parMin[20], parMax[20] );
+    parSet[21]  = ParameterSet( "deltaK bin21",   parStep[21], parMin[21], parMax[21] );
+    parSet[22]  = ParameterSet( "deltaK bin22",   parStep[22], parMin[22], parMax[22] );
+    parSet[23]  = ParameterSet( "deltaK bin23",   parStep[23], parMin[23], parMax[23] );
+    parSet[24]  = ParameterSet( "deltaK bin24",   parStep[24], parMin[24], parMax[24] );
+    parSet[25]  = ParameterSet( "deltaK bin25",   parStep[25], parMin[25], parMax[25] );
+    parSet[26]  = ParameterSet( "deltaK bin26",   parStep[26], parMin[26], parMax[26] );
+    parSet[27]  = ParameterSet( "deltaK bin27",   parStep[27], parMin[27], parMax[27] );
+    parSet[28]  = ParameterSet( "deltaK bin28",   parStep[28], parMin[28], parMax[28] );
+    parSet[29]  = ParameterSet( "deltaK bin29",   parStep[29], parMin[29], parMax[29] );
+    parSet[30]  = ParameterSet( "deltaK bin30",   parStep[30], parMin[30], parMax[30] );
+    parSet[31]  = ParameterSet( "deltaK bin31",   parStep[31], parMin[31], parMax[31] );
+    parSet[32]  = ParameterSet( "deltaK bin32",   parStep[32], parMin[32], parMax[32] );
+    parSet[33]  = ParameterSet( "deltaK bin33",   parStep[33], parMin[33], parMax[33] );
+    parSet[34]  = ParameterSet( "deltaK bin34",   parStep[34], parMin[34], parMax[34] );
+    parSet[35]  = ParameterSet( "deltaK bin35",   parStep[35], parMin[35], parMax[35] );
+    parSet[36]  = ParameterSet( "deltaK bin36",   parStep[36], parMin[36], parMax[36] );
+    parSet[37]  = ParameterSet( "deltaK bin37",   parStep[37], parMin[37], parMax[37] );
+    parSet[38]  = ParameterSet( "deltaK bin38",   parStep[38], parMin[38], parMax[38] );
+    parSet[39]  = ParameterSet( "deltaK bin39",   parStep[39], parMin[39], parMax[39] );
+    parSet[40]  = ParameterSet( "deltaK bin40",   parStep[40], parMin[40], parMax[40] );
+    parSet[41]  = ParameterSet( "deltaK bin41",   parStep[41], parMin[41], parMax[41] );
+    parSet[42]  = ParameterSet( "deltaK bin42",   parStep[42], parMin[42], parMax[42] );
+    parSet[43]  = ParameterSet( "deltaK bin43",   parStep[43], parMin[43], parMax[43] );
+    parSet[44]  = ParameterSet( "deltaK bin44",   parStep[44], parMin[44], parMax[44] );
+    parSet[45]  = ParameterSet( "deltaK bin45",   parStep[45], parMin[45], parMax[45] );
+    parSet[46]  = ParameterSet( "deltaK bin46",   parStep[46], parMin[46], parMax[46] );
+    parSet[47]  = ParameterSet( "deltaK bin47",   parStep[47], parMin[47], parMax[47] );
+    parSet[48]  = ParameterSet( "deltaK bin48",   parStep[48], parMin[48], parMax[48] );
+    parSet[49]  = ParameterSet( "deltaK bin49",   parStep[49], parMin[49], parMax[49] );
+    parSet[50]  = ParameterSet( "deltaK bin50",   parStep[50], parMin[50], parMax[50] );
+    parSet[51]  = ParameterSet( "deltaK bin51",   parStep[51], parMin[51], parMax[51] );
+    parSet[52]  = ParameterSet( "deltaK bin52",   parStep[52], parMin[52], parMax[52] );
+    parSet[53]  = ParameterSet( "deltaK bin53",   parStep[53], parMin[53], parMax[53] );
+    parSet[54]  = ParameterSet( "deltaK bin54",   parStep[54], parMin[54], parMax[54] );
+    parSet[55]  = ParameterSet( "deltaK bin55",   parStep[55], parMin[55], parMax[55] );
+    parSet[56]  = ParameterSet( "deltaK bin56",   parStep[56], parMin[56], parMax[56] );
+    parSet[57]  = ParameterSet( "deltaK bin57",   parStep[57], parMin[57], parMax[57] );
+    parSet[58]  = ParameterSet( "deltaK bin58",   parStep[58], parMin[58], parMax[58] );
+    parSet[59]  = ParameterSet( "deltaK bin59",   parStep[59], parMin[59], parMax[59] );
+    parSet[60]  = ParameterSet( "deltaK bin60",   parStep[60], parMin[60], parMax[60] );
+    parSet[61]  = ParameterSet( "deltaK bin61",   parStep[61], parMin[61], parMax[61] );
+    parSet[62]  = ParameterSet( "deltaK bin62",   parStep[62], parMin[62], parMax[62] );
+    parSet[63]  = ParameterSet( "deltaK bin63",   parStep[63], parMin[63], parMax[63] );
+    parSet[64]  = ParameterSet( "deltaK bin64",   parStep[64], parMin[64], parMax[64] );
+    parSet[65]  = ParameterSet( "deltaK bin65",   parStep[65], parMin[65], parMax[65] );
+    parSet[66]  = ParameterSet( "deltaK bin66",   parStep[66], parMin[66], parMax[66] );
+    parSet[67]  = ParameterSet( "deltaK bin67",   parStep[67], parMin[67], parMax[67] );
+    parSet[68]  = ParameterSet( "deltaK bin68",   parStep[68], parMin[68], parMax[68] );
+    parSet[69]  = ParameterSet( "deltaK bin69",   parStep[69], parMin[69], parMax[69] );
+    parSet[70]  = ParameterSet( "deltaK bin70",   parStep[70], parMin[70], parMax[70] );
+    parSet[71]  = ParameterSet( "deltaK bin71",   parStep[71], parMin[71], parMax[71] );
+    parSet[72]  = ParameterSet( "deltaK bin72",   parStep[72], parMin[72], parMax[72] );
+    parSet[73]  = ParameterSet( "deltaK bin73",   parStep[73], parMin[73], parMax[73] );
+    parSet[74]  = ParameterSet( "deltaK bin74",   parStep[74], parMin[74], parMax[74] );
+    parSet[75]  = ParameterSet( "deltaK bin75",   parStep[75], parMin[75], parMax[75] );
+    parSet[76]  = ParameterSet( "deltaK bin76",   parStep[76], parMin[76], parMax[76] );
+    parSet[77]  = ParameterSet( "deltaK bin77",   parStep[77], parMin[77], parMax[77] );
+    parSet[78]  = ParameterSet( "deltaK bin78",   parStep[78], parMin[78], parMax[78] );
+    parSet[79]  = ParameterSet( "deltaK bin79",   parStep[79], parMin[79], parMax[79] );
+    parSet[80]  = ParameterSet( "deltaK bin80",   parStep[80], parMin[80], parMax[80] );
+    parSet[81]  = ParameterSet( "deltaK bin81",   parStep[81], parMin[81], parMax[81] );
+    parSet[82]  = ParameterSet( "deltaK bin82",   parStep[82], parMin[82], parMax[82] );
+    parSet[83]  = ParameterSet( "deltaK bin83",   parStep[83], parMin[83], parMax[83] );
+    parSet[84]  = ParameterSet( "deltaK bin84",   parStep[84], parMin[84], parMax[84] );
+    parSet[85]  = ParameterSet( "deltaK bin85",   parStep[85], parMin[85], parMax[85] );
+    parSet[86]  = ParameterSet( "deltaK bin86",   parStep[86], parMin[86], parMax[86] );
+    parSet[87]  = ParameterSet( "deltaK bin87",   parStep[87], parMin[87], parMax[87] );
+    parSet[88]  = ParameterSet( "deltaK bin88",   parStep[88], parMin[88], parMax[88] );
+    parSet[89]  = ParameterSet( "deltaK bin89",   parStep[89], parMin[89], parMax[89] );
+    parSet[90]  = ParameterSet( "deltaK bin90",   parStep[90], parMin[90], parMax[90] );
+    parSet[91]  = ParameterSet( "deltaK bin91",   parStep[91], parMin[91], parMax[91] );
+    parSet[92]  = ParameterSet( "deltaK bin92",   parStep[92], parMin[92], parMax[92] );
+    parSet[93]  = ParameterSet( "deltaK bin93",   parStep[93], parMin[93], parMax[93] );
+    parSet[94]  = ParameterSet( "deltaK bin94",   parStep[94], parMin[94], parMax[94] );
+    parSet[95]  = ParameterSet( "deltaK bin95",   parStep[95], parMin[95], parMax[95] );
+    parSet[96]  = ParameterSet( "deltaK bin96",   parStep[96], parMin[96], parMax[96] );
+    parSet[97]  = ParameterSet( "deltaK bin97",   parStep[97], parMin[97], parMax[97] );
+    parSet[98]  = ParameterSet( "deltaK bin98",   parStep[98], parMin[98], parMax[98] );
+    parSet[99]  = ParameterSet( "deltaK bin99",   parStep[99], parMin[99], parMax[99] );
+    parSet[100]  = ParameterSet( "deltaK bin100",   parStep[100], parMin[100], parMax[100] );
+    parSet[101]  = ParameterSet( "deltaK bin101",   parStep[101], parMin[101], parMax[101] );
+    parSet[102]  = ParameterSet( "deltaK bin102",   parStep[102], parMin[102], parMax[102] );
+    parSet[103]  = ParameterSet( "deltaK bin103",   parStep[103], parMin[103], parMax[103] );
+    parSet[104]  = ParameterSet( "deltaK bin104",   parStep[104], parMin[104], parMax[104] );
+    parSet[105]  = ParameterSet( "deltaK bin105",   parStep[105], parMin[105], parMax[105] );
+    parSet[106]  = ParameterSet( "deltaK bin106",   parStep[106], parMin[106], parMax[106] );
+    parSet[107]  = ParameterSet( "deltaK bin107",   parStep[107], parMin[107], parMax[107] );
+    parSet[108]  = ParameterSet( "deltaK bin108",   parStep[108], parMin[108], parMax[108] );
+    parSet[109]  = ParameterSet( "deltaK bin109",   parStep[109], parMin[109], parMax[109] );
+    parSet[110]  = ParameterSet( "deltaK bin110",   parStep[110], parMin[110], parMax[110] );
+    parSet[111]  = ParameterSet( "deltaK bin111",   parStep[111], parMin[111], parMax[111] );
+    parSet[112]  = ParameterSet( "deltaK bin112",   parStep[112], parMin[112], parMax[112] );
+    parSet[113]  = ParameterSet( "deltaK bin113",   parStep[113], parMin[113], parMax[113] );
+    parSet[114]  = ParameterSet( "deltaK bin114",   parStep[114], parMin[114], parMax[114] );
+    parSet[115]  = ParameterSet( "deltaK bin115",   parStep[115], parMin[115], parMax[115] );
+    parSet[116]  = ParameterSet( "deltaK bin116",   parStep[116], parMin[116], parMax[116] );
+    parSet[117]  = ParameterSet( "deltaK bin117",   parStep[117], parMin[117], parMax[117] );
+    parSet[118]  = ParameterSet( "deltaK bin118",   parStep[118], parMin[118], parMax[118] );
+    parSet[119]  = ParameterSet( "deltaK bin119",   parStep[119], parMin[119], parMax[119] );
+    parSet[120]  = ParameterSet( "deltaK bin120",   parStep[120], parMin[120], parMax[120] );
+    parSet[121]  = ParameterSet( "deltaK bin121",   parStep[121], parMin[121], parMax[121] );
+    parSet[122]  = ParameterSet( "deltaK bin122",   parStep[122], parMin[122], parMax[122] );
+    parSet[123]  = ParameterSet( "deltaK bin123",   parStep[123], parMin[123], parMax[123] );
+    parSet[124]  = ParameterSet( "deltaK bin124",   parStep[124], parMin[124], parMax[124] );
+    parSet[125]  = ParameterSet( "deltaK bin125",   parStep[125], parMin[125], parMax[125] );
+    parSet[126]  = ParameterSet( "deltaK bin126",   parStep[126], parMin[126], parMax[126] );
+    parSet[127]  = ParameterSet( "deltaK bin127",   parStep[127], parMin[127], parMax[127] );
+    parSet[128]  = ParameterSet( "deltaK bin128",   parStep[128], parMin[128], parMax[128] );
+    parSet[129]  = ParameterSet( "deltaK bin129",   parStep[129], parMin[129], parMax[129] );
+    parSet[130]  = ParameterSet( "deltaK bin130",   parStep[130], parMin[130], parMax[130] );
+    parSet[131]  = ParameterSet( "deltaK bin131",   parStep[131], parMin[131], parMax[131] );
+    parSet[132]  = ParameterSet( "deltaK bin132",   parStep[132], parMin[132], parMax[132] );
+    parSet[133]  = ParameterSet( "deltaK bin133",   parStep[133], parMin[133], parMax[133] );
+    parSet[134]  = ParameterSet( "deltaK bin134",   parStep[134], parMin[134], parMax[134] );
+    parSet[135]  = ParameterSet( "deltaK bin135",   parStep[135], parMin[135], parMax[135] );
+    parSet[136]  = ParameterSet( "deltaK bin136",   parStep[136], parMin[136], parMax[136] );
+    parSet[137]  = ParameterSet( "deltaK bin137",   parStep[137], parMin[137], parMax[137] );
+    parSet[138]  = ParameterSet( "deltaK bin138",   parStep[138], parMin[138], parMax[138] );
+    parSet[139]  = ParameterSet( "deltaK bin139",   parStep[139], parMin[139], parMax[139] );
+    parSet[140]  = ParameterSet( "deltaK bin140",   parStep[140], parMin[140], parMax[140] );
+    parSet[141]  = ParameterSet( "deltaK bin141",   parStep[141], parMin[141], parMax[141] );
+    parSet[142]  = ParameterSet( "deltaK bin142",   parStep[142], parMin[142], parMax[142] );
+    parSet[143]  = ParameterSet( "deltaK bin143",   parStep[143], parMin[143], parMax[143] );
+    parSet[144]  = ParameterSet( "deltaK bin144",   parStep[144], parMin[144], parMax[144] );
+    parSet[145]  = ParameterSet( "deltaK bin145",   parStep[145], parMin[145], parMax[145] );
+    parSet[146]  = ParameterSet( "deltaK bin146",   parStep[146], parMin[146], parMax[146] );
+    parSet[147]  = ParameterSet( "deltaK bin147",   parStep[147], parMin[147], parMax[147] );
+    parSet[148]  = ParameterSet( "deltaK bin148",   parStep[148], parMin[148], parMax[148] );
+    parSet[149]  = ParameterSet( "deltaK bin149",   parStep[149], parMin[149], parMax[149] );
+    parSet[150]  = ParameterSet( "deltaK bin150",   parStep[150], parMin[150], parMax[150] );
+    parSet[151]  = ParameterSet( "deltaK bin151",   parStep[151], parMin[151], parMax[151] );
+    parSet[152]  = ParameterSet( "deltaK bin152",   parStep[152], parMin[152], parMax[152] );
+    parSet[153]  = ParameterSet( "deltaK bin153",   parStep[153], parMin[153], parMax[153] );
+    parSet[154]  = ParameterSet( "deltaK bin154",   parStep[154], parMin[154], parMax[154] );
+    parSet[155]  = ParameterSet( "deltaK bin155",   parStep[155], parMin[155], parMax[155] );
+    parSet[156]  = ParameterSet( "deltaK bin156",   parStep[156], parMin[156], parMax[156] );
+    parSet[157]  = ParameterSet( "deltaK bin157",   parStep[157], parMin[157], parMax[157] );
+    parSet[158]  = ParameterSet( "deltaK bin158",   parStep[158], parMin[158], parMax[158] );
+    parSet[159]  = ParameterSet( "deltaK bin159",   parStep[159], parMin[159], parMax[159] );
+    parSet[160]  = ParameterSet( "deltaK bin160",   parStep[160], parMin[160], parMax[160] );
+    parSet[161]  = ParameterSet( "deltaK bin161",   parStep[161], parMin[161], parMax[161] );
+    parSet[162]  = ParameterSet( "deltaK bin162",   parStep[162], parMin[162], parMax[162] );
+    parSet[163]  = ParameterSet( "deltaK bin163",   parStep[163], parMin[163], parMax[163] );
+    parSet[164]  = ParameterSet( "deltaK bin164",   parStep[164], parMin[164], parMax[164] );
+    parSet[165]  = ParameterSet( "deltaK bin165",   parStep[165], parMin[165], parMax[165] );
+    parSet[166]  = ParameterSet( "deltaK bin166",   parStep[166], parMin[166], parMax[166] );
+    parSet[167]  = ParameterSet( "deltaK bin167",   parStep[167], parMin[167], parMax[167] );
+    parSet[168]  = ParameterSet( "deltaK bin168",   parStep[168], parMin[168], parMax[168] );
+    parSet[169]  = ParameterSet( "deltaK bin169",   parStep[169], parMin[169], parMax[169] );
+    parSet[170]  = ParameterSet( "deltaK bin170",   parStep[170], parMin[170], parMax[170] );
+    parSet[171]  = ParameterSet( "deltaK bin171",   parStep[171], parMin[171], parMax[171] );
+    parSet[172]  = ParameterSet( "deltaK bin172",   parStep[172], parMin[172], parMax[172] );
+    parSet[173]  = ParameterSet( "deltaK bin173",   parStep[173], parMin[173], parMax[173] );
+    parSet[174]  = ParameterSet( "deltaK bin174",   parStep[174], parMin[174], parMax[174] );
+    parSet[175]  = ParameterSet( "deltaK bin175",   parStep[175], parMin[175], parMax[175] );
+    parSet[176]  = ParameterSet( "deltaK bin176",   parStep[176], parMin[176], parMax[176] );
+
+
+    std::cout << "setting parameters" << std::endl;
+    for( int i=0; i<this->parNum_; ++i ) {
+      std::cout << "parStep["<<i<<"] = " << parStep[i]
+		<< ", parMin["<<i<<"] = " << parMin[i]
+		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+    }
+    this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
+  }
+
+};
+
+
+
 
 
 
