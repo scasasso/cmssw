@@ -4015,7 +4015,6 @@ public:
 //
 // Curvature: binned function 
 // Evoluted a bit: 
-// - added phase to the definition of eta bins
 // - added the possibility to differentiate the number of phi segmentation
 // - phi bins = [8,8,6,6,6,8,8] in 7 eta bins
 // ------------------------------------------------------------
@@ -4023,63 +4022,63 @@ template <class T>
 class scaleFunctionType60 : public scaleFunctionBase<T> {
 public:
   scaleFunctionType60() { 
-    this->parNum_ = 58; 
+    this->parNum_ = 51; 
   }
   virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
     double deltaK(0);
     double p0 = parScale[0];
     
     
-    if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<-2.35619449019 && phi+parScale[51]>-3.14159265359 ) deltaK = parScale[1];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<-1.57079632679 && phi+parScale[51]>-2.35619449019 ) deltaK = parScale[2];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<-0.785398163397 && phi+parScale[51]>-1.57079632679 ) deltaK = parScale[3];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<0.0 && phi+parScale[51]>-0.785398163397 ) deltaK = parScale[4];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<0.785398163397 && phi+parScale[51]>0.0 ) deltaK = parScale[5];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<1.57079632679 && phi+parScale[51]>0.785398163397 ) deltaK = parScale[6];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<2.35619449019 && phi+parScale[51]>1.57079632679 ) deltaK = parScale[7];
-    else if ( eta<-2.1 && eta>-2.4 && phi+parScale[51]<3.14159265359 && phi+parScale[51]>2.35619449019 ) deltaK = parScale[8];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<-2.35619449019 && phi+parScale[52]>-3.14159265359 ) deltaK = parScale[9];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<-1.57079632679 && phi+parScale[52]>-2.35619449019 ) deltaK = parScale[10];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<-0.785398163397 && phi+parScale[52]>-1.57079632679 ) deltaK = parScale[11];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<0.0 && phi+parScale[52]>-0.785398163397 ) deltaK = parScale[12];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<0.785398163397 && phi+parScale[52]>0.0 ) deltaK = parScale[13];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<1.57079632679 && phi+parScale[52]>0.785398163397 ) deltaK = parScale[14];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<2.35619449019 && phi+parScale[52]>1.57079632679 ) deltaK = parScale[15];
-    else if ( eta<-1.5 && eta>-2.1 && phi+parScale[52]<3.14159265359 && phi+parScale[52]>2.35619449019 ) deltaK = parScale[16];
-    else if ( eta<-0.9 && eta>-1.5 && phi+parScale[53]<-2.09439510239 && phi+parScale[53]>-3.14159265359 ) deltaK = parScale[17];
-    else if ( eta<-0.9 && eta>-1.5 && phi+parScale[53]<-1.0471975512 && phi+parScale[53]>-2.09439510239 ) deltaK = parScale[18];
-    else if ( eta<-0.9 && eta>-1.5 && phi+parScale[53]<0.0 && phi+parScale[53]>-1.0471975512 ) deltaK = parScale[19];
-    else if ( eta<-0.9 && eta>-1.5 && phi+parScale[53]<1.0471975512 && phi+parScale[53]>0.0 ) deltaK = parScale[20];
-    else if ( eta<-0.9 && eta>-1.5 && phi+parScale[53]<2.09439510239 && phi+parScale[53]>1.0471975512 ) deltaK = parScale[21];
-    else if ( eta<-0.9 && eta>-1.5 && phi+parScale[53]<3.14159265359 && phi+parScale[53]>2.09439510239 ) deltaK = parScale[22];
-    else if ( eta<0.9 && eta>-0.9 && phi+parScale[54]<-2.09439510239 && phi+parScale[54]>-3.14159265359 ) deltaK = parScale[23];
-    else if ( eta<0.9 && eta>-0.9 && phi+parScale[54]<-1.0471975512 && phi+parScale[54]>-2.09439510239 ) deltaK = parScale[24];
-    else if ( eta<0.9 && eta>-0.9 && phi+parScale[54]<0.0 && phi+parScale[54]>-1.0471975512 ) deltaK = parScale[25];
-    else if ( eta<0.9 && eta>-0.9 && phi+parScale[54]<1.0471975512 && phi+parScale[54]>0.0 ) deltaK = parScale[26];
-    else if ( eta<0.9 && eta>-0.9 && phi+parScale[54]<2.09439510239 && phi+parScale[54]>1.0471975512 ) deltaK = parScale[27];
-    else if ( eta<0.9 && eta>-0.9 && phi+parScale[54]<3.14159265359 && phi+parScale[54]>2.09439510239 ) deltaK = parScale[28];
-    else if ( eta<1.5 && eta>0.9 && phi+parScale[55]<-2.09439510239 && phi+parScale[55]>-3.14159265359 ) deltaK = parScale[29];
-    else if ( eta<1.5 && eta>0.9 && phi+parScale[55]<-1.0471975512 && phi+parScale[55]>-2.09439510239 ) deltaK = parScale[30];
-    else if ( eta<1.5 && eta>0.9 && phi+parScale[55]<0.0 && phi+parScale[55]>-1.0471975512 ) deltaK = parScale[31];
-    else if ( eta<1.5 && eta>0.9 && phi+parScale[55]<1.0471975512 && phi+parScale[55]>0.0 ) deltaK = parScale[32];
-    else if ( eta<1.5 && eta>0.9 && phi+parScale[55]<2.09439510239 && phi+parScale[55]>1.0471975512 ) deltaK = parScale[33];
-    else if ( eta<1.5 && eta>0.9 && phi+parScale[55]<3.14159265359 && phi+parScale[55]>2.09439510239 ) deltaK = parScale[34];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<-2.35619449019 && phi+parScale[56]>-3.14159265359 ) deltaK = parScale[35];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<-1.57079632679 && phi+parScale[56]>-2.35619449019 ) deltaK = parScale[36];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<-0.785398163397 && phi+parScale[56]>-1.57079632679 ) deltaK = parScale[37];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<0.0 && phi+parScale[56]>-0.785398163397 ) deltaK = parScale[38];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<0.785398163397 && phi+parScale[56]>0.0 ) deltaK = parScale[39];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<1.57079632679 && phi+parScale[56]>0.785398163397 ) deltaK = parScale[40];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<2.35619449019 && phi+parScale[56]>1.57079632679 ) deltaK = parScale[41];
-    else if ( eta<2.1 && eta>1.5 && phi+parScale[56]<3.14159265359 && phi+parScale[56]>2.35619449019 ) deltaK = parScale[42];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<-2.35619449019 && phi+parScale[57]>-3.14159265359 ) deltaK = parScale[43];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<-1.57079632679 && phi+parScale[57]>-2.35619449019 ) deltaK = parScale[44];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<-0.785398163397 && phi+parScale[57]>-1.57079632679 ) deltaK = parScale[45];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<0.0 && phi+parScale[57]>-0.785398163397 ) deltaK = parScale[46];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<0.785398163397 && phi+parScale[57]>0.0 ) deltaK = parScale[47];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<1.57079632679 && phi+parScale[57]>0.785398163397 ) deltaK = parScale[48];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<2.35619449019 && phi+parScale[57]>1.57079632679 ) deltaK = parScale[49];
-    else if ( eta<2.4 && eta>2.1 && phi+parScale[57]<3.14159265359 && phi+parScale[57]>2.35619449019 ) deltaK = parScale[50];
+    if ( eta<-2.1 && eta>-2.4 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[1];
+    else if ( eta<-2.1 && eta>-2.4 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[2];
+    else if ( eta<-2.1 && eta>-2.4 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[3];
+    else if ( eta<-2.1 && eta>-2.4 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[4];
+    else if ( eta<-2.1 && eta>-2.4 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[5];
+    else if ( eta<-2.1 && eta>-2.4 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[6];
+    else if ( eta<-2.1 && eta>-2.4 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[7];
+    else if ( eta<-2.1 && eta>-2.4 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[8];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[9];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[10];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[11];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[12];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[13];
+    else if ( eta<-1.5 && eta>-2.1 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[14];
+    else if ( eta<-1.5 && eta>-2.1 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[15];
+    else if ( eta<-1.5 && eta>-2.1 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[16];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-2.09439510239 && phi>-3.14159265359 ) deltaK = parScale[17];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-1.0471975512 && phi>-2.09439510239 ) deltaK = parScale[18];
+    else if ( eta<-0.9 && eta>-1.5 && phi<0.0 && phi>-1.0471975512 ) deltaK = parScale[19];
+    else if ( eta<-0.9 && eta>-1.5 && phi<1.0471975512 && phi>0.0 ) deltaK = parScale[20];
+    else if ( eta<-0.9 && eta>-1.5 && phi<2.09439510239 && phi>1.0471975512 ) deltaK = parScale[21];
+    else if ( eta<-0.9 && eta>-1.5 && phi<3.14159265359 && phi>2.09439510239 ) deltaK = parScale[22];
+    else if ( eta<0.9 && eta>-0.9 && phi<-2.09439510239 && phi>-3.14159265359 ) deltaK = parScale[23];
+    else if ( eta<0.9 && eta>-0.9 && phi<-1.0471975512 && phi>-2.09439510239 ) deltaK = parScale[24];
+    else if ( eta<0.9 && eta>-0.9 && phi<0.0 && phi>-1.0471975512 ) deltaK = parScale[25];
+    else if ( eta<0.9 && eta>-0.9 && phi<1.0471975512 && phi>0.0 ) deltaK = parScale[26];
+    else if ( eta<0.9 && eta>-0.9 && phi<2.09439510239 && phi>1.0471975512 ) deltaK = parScale[27];
+    else if ( eta<0.9 && eta>-0.9 && phi<3.14159265359 && phi>2.09439510239 ) deltaK = parScale[28];
+    else if ( eta<1.5 && eta>0.9 && phi<-2.09439510239 && phi>-3.14159265359 ) deltaK = parScale[29];
+    else if ( eta<1.5 && eta>0.9 && phi<-1.0471975512 && phi>-2.09439510239 ) deltaK = parScale[30];
+    else if ( eta<1.5 && eta>0.9 && phi<0.0 && phi>-1.0471975512 ) deltaK = parScale[31];
+    else if ( eta<1.5 && eta>0.9 && phi<1.0471975512 && phi>0.0 ) deltaK = parScale[32];
+    else if ( eta<1.5 && eta>0.9 && phi<2.09439510239 && phi>1.0471975512 ) deltaK = parScale[33];
+    else if ( eta<1.5 && eta>0.9 && phi<3.14159265359 && phi>2.09439510239 ) deltaK = parScale[34];
+    else if ( eta<2.1 && eta>1.5 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[35];
+    else if ( eta<2.1 && eta>1.5 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[36];
+    else if ( eta<2.1 && eta>1.5 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[37];
+    else if ( eta<2.1 && eta>1.5 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[38];
+    else if ( eta<2.1 && eta>1.5 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[39];
+    else if ( eta<2.1 && eta>1.5 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[40];
+    else if ( eta<2.1 && eta>1.5 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[41];
+    else if ( eta<2.1 && eta>1.5 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[42];
+    else if ( eta<2.4 && eta>2.1 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[43];
+    else if ( eta<2.4 && eta>2.1 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[44];
+    else if ( eta<2.4 && eta>2.1 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[45];
+    else if ( eta<2.4 && eta>2.1 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[46];
+    else if ( eta<2.4 && eta>2.1 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[47];
+    else if ( eta<2.4 && eta>2.1 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[48];
+    else if ( eta<2.4 && eta>2.1 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[49];
+    else if ( eta<2.4 && eta>2.1 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[50];
     else {
       std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
       exit(1);
@@ -4101,32 +4100,32 @@ public:
 
     double thisStep[] = {
       0.000001, 
-            0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.628318530718, 0.628318530718, 0.628318530718, 0.628318530718, 0.628318530718, 0.628318530718, 0.628318530718
+            0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002
     }; 
 
     TString thisParName[] = { 
       "Curv global scale", 
-            "deltaK bin1", "deltaK bin2", "deltaK bin3", "deltaK bin4", "deltaK bin5", "deltaK bin6", "deltaK bin7", "deltaK bin8", "deltaK bin9", "deltaK bin10", "deltaK bin11", "deltaK bin12", "deltaK bin13", "deltaK bin14", "deltaK bin15", "deltaK bin16", "deltaK bin17", "deltaK bin18", "deltaK bin19", "deltaK bin20", "deltaK bin21", "deltaK bin22", "deltaK bin23", "deltaK bin24", "deltaK bin25", "deltaK bin26", "deltaK bin27", "deltaK bin28", "deltaK bin29", "deltaK bin30", "deltaK bin31", "deltaK bin32", "deltaK bin33", "deltaK bin34", "deltaK bin35", "deltaK bin36", "deltaK bin37", "deltaK bin38", "deltaK bin39", "deltaK bin40", "deltaK bin41", "deltaK bin42", "deltaK bin43", "deltaK bin44", "deltaK bin45", "deltaK bin46", "deltaK bin47", "deltaK bin48", "deltaK bin49", "deltaK bin50", "phase eta bin0", "phase eta bin1", "phase eta bin2", "phase eta bin3", "phase eta bin4", "phase eta bin5", "phase eta bin6"
+            "deltaK bin1", "deltaK bin2", "deltaK bin3", "deltaK bin4", "deltaK bin5", "deltaK bin6", "deltaK bin7", "deltaK bin8", "deltaK bin9", "deltaK bin10", "deltaK bin11", "deltaK bin12", "deltaK bin13", "deltaK bin14", "deltaK bin15", "deltaK bin16", "deltaK bin17", "deltaK bin18", "deltaK bin19", "deltaK bin20", "deltaK bin21", "deltaK bin22", "deltaK bin23", "deltaK bin24", "deltaK bin25", "deltaK bin26", "deltaK bin27", "deltaK bin28", "deltaK bin29", "deltaK bin30", "deltaK bin31", "deltaK bin32", "deltaK bin33", "deltaK bin34", "deltaK bin35", "deltaK bin36", "deltaK bin37", "deltaK bin38", "deltaK bin39", "deltaK bin40", "deltaK bin41", "deltaK bin42", "deltaK bin43", "deltaK bin44", "deltaK bin45", "deltaK bin46", "deltaK bin47", "deltaK bin48", "deltaK bin49", "deltaK bin50"
     };
 
     if( muonType == 1 ) {
       double thisMini[] = {
 	-0.1,
-	-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359
+	-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01
       };
       double thisMaxi[] = {
 	0.1,
-	0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359
+	0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01
       };
       this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
     } else {
       double thisMini[] = {
 	-0.1,
-	-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359, -3.14159265359
+	-0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01, -0.01
       };
       double thisMaxi[] = {
 	0.1,
-	0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359, 3.14159265359
+	0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01
       };
       this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
     }
@@ -4199,13 +4198,6 @@ public:
     parSet[48]  = ParameterSet( "deltaK bin48",   parStep[48], parMin[48], parMax[48] );
     parSet[49]  = ParameterSet( "deltaK bin49",   parStep[49], parMin[49], parMax[49] );
     parSet[50]  = ParameterSet( "deltaK bin50",   parStep[50], parMin[50], parMax[50] );
-    parSet[51]  = ParameterSet( "phase eta bin0",   parStep[51], parMin[51], parMax[51] );
-    parSet[52]  = ParameterSet( "phase eta bin1",   parStep[52], parMin[52], parMax[52] );
-    parSet[53]  = ParameterSet( "phase eta bin2",   parStep[53], parMin[53], parMax[53] );
-    parSet[54]  = ParameterSet( "phase eta bin3",   parStep[54], parMin[54], parMax[54] );
-    parSet[55]  = ParameterSet( "phase eta bin4",   parStep[55], parMin[55], parMax[55] );
-    parSet[56]  = ParameterSet( "phase eta bin5",   parStep[56], parMin[56], parMax[56] );
-    parSet[57]  = ParameterSet( "phase eta bin6",   parStep[57], parMin[57], parMax[57] );
 
 
     std::cout << "setting parameters" << std::endl;
@@ -4218,7 +4210,6 @@ public:
   }
 
 };
-
 
 
 /// Service to build the scale functor corresponding to the passed identifier
