@@ -8977,4 +8977,295 @@ class backgroundFunctionType13 : public backgroundFunctionBase {
 };
 
 
+/// Exponential binned in eta (Z, DYToMuMu_13TeV_Spring14dr-PU20bx25 CSA14 PU20 sample)
+// --------------------------
+class backgroundFunctionType14 : public backgroundFunctionBase {
+ public:
+  backgroundFunctionType14(const double & lowerLimit, const double & upperLimit) :
+  backgroundFunctionBase(lowerLimit, upperLimit)
+  {
+    this->parNum_ = 2;
+  }
+  virtual double operator()( const double * parval, const double & mass, const double & eta ) const {return 0.;}
+  virtual double operator()( const double * parval, const double & mass, const double & eta1, const double & eta2 ) const
+  {
+    double Bgrp2 = 0.;
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0179223);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (9.74938e-05);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (0.00451338);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (0.0805215);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0193534);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.0282387);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0171799);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (0.0227654);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (0.0090244);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (0.00126661);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (0.00650538);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0288666);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (0.0715304);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (0.0216131);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (0.0131664);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0143161);
+    }
+    else {
+      std::cout << "WARNING, backgroundFunctionType14: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
+      return (-0.05);
+    }    
+    double norm = (exp(Bgrp2*upperLimit_) - exp(Bgrp2*lowerLimit_))/Bgrp2;
+    if( norm != 0 ) return exp(Bgrp2*mass)/norm;
+    else return 0.;
+
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname, const std::vector<double>::const_iterator & parBgrIt, const std::vector<int>::const_iterator & parBgrOrderIt, const int muonType) {
+    double thisStep[] = {0.01, 0.01};
+    TString thisParName[] = {"Bgr fraction", "Bgr slope"};
+    if( muonType == 1 ) {
+      double thisMini[] = {-1.0, 10.};
+      double thisMaxi[] = {1.0 , 10.};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parBgrIt, parBgrOrderIt, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {-1.0, 10.};
+      double thisMaxi[] = { 1.0, 10.};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parBgrIt, parBgrOrderIt, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+
+  virtual double fracVsEta(const double * parval, const double & eta1, const double & eta2) const
+  {
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.972161);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.971998);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.977014);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.971695);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.979708);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.984192);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.978428);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.983956);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.985765);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.993256);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.985321);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.987276);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.977398);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.976576);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.98135);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.973644);
+    }
+    else {
+      std::cout << "WARNING, backgroundFunctionType14: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
+      return (1.-0.97);
+    }
+  }
+};
+
+
+
+/// Exponential binned in eta (Z, DYToMuMu_13TeV_Spring14dr-PU_S14 CSA14 PU40 sample)
+// --------------------------
+class backgroundFunctionType15 : public backgroundFunctionBase {
+ public:
+  backgroundFunctionType15(const double & lowerLimit, const double & upperLimit) :
+  backgroundFunctionBase(lowerLimit, upperLimit)
+  {
+    this->parNum_ = 2;
+  }
+  virtual double operator()( const double * parval, const double & mass, const double & eta ) const {return 0.;}
+  virtual double operator()( const double * parval, const double & mass, const double & eta1, const double & eta2 ) const
+  {
+    double Bgrp2 = 0.;
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0239095);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0239095);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.0114121);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (0.00147702);
+    }
+    else if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (0.0732125);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (-0.0434187);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-6.77051);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0353502);
+    }
+    else if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0106026);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (0.0179404);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (-0.0847716);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-0.0809917);
+    }
+    else if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.0601478);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      Bgrp2 = (0.0603324);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      Bgrp2 = (0.00588009);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      Bgrp2 = (-2.79523e-05);
+    }
+    else if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      Bgrp2 = (-0.030306);
+    }
+    else {
+      std::cout << "WARNING, backgroundFunctionType15: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
+      return (-0.05);
+    }    
+    double norm = (exp(Bgrp2*upperLimit_) - exp(Bgrp2*lowerLimit_))/Bgrp2;
+    if( norm != 0 ) return exp(Bgrp2*mass)/norm;
+    else return 0.;
+
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname, const std::vector<double>::const_iterator & parBgrIt, const std::vector<int>::const_iterator & parBgrOrderIt, const int muonType) {
+    double thisStep[] = {0.01, 0.01};
+    TString thisParName[] = {"Bgr fraction", "Bgr slope"};
+    if( muonType == 1 ) {
+      double thisMini[] = {-1.0, 10.};
+      double thisMaxi[] = {1.0 , 10.};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parBgrIt, parBgrOrderIt, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {-1.0, 10.};
+      double thisMaxi[] = { 1.0, 10.};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parBgrIt, parBgrOrderIt, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+
+  virtual double fracVsEta(const double * parval, const double & eta1, const double & eta2) const
+  {
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.976364);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.976364);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.975607);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.977159);
+    }
+    if( (eta1 >= -100. && eta1 < -0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.978691);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.986647);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-1.0);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.985632);
+    }
+    if( (eta1 >= -0.8 && eta1 < 0.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.982789);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.992069);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.992308);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.986344);
+    }
+    if( (eta1 >= 0. && eta1 < 0.8) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.992821);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -100. && eta2 < -0.8) ) {
+      return (1.-0.977077);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= -0.8 && eta2 < 0.) ) {
+      return (1.-0.984902);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0. && eta2 < 0.8) ) {
+      return (1.-0.987851);
+    }
+    if( (eta1 >= 0.8 && eta1 < 100.) && (eta2 >= 0.8 && eta2 < 100.) ) {
+      return (1.-0.975714);
+    }
+    else {
+      std::cout << "WARNING, backgroundFunctionType15: this should not happen for eta1 = " << eta1 << " and eta2 = " << eta2 << std::endl;
+      return (1.-0.97);
+    }
+  }
+};
+
+
 #endif // FUNCTIONS_H
