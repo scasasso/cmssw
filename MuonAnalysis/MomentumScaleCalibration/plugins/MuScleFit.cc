@@ -922,7 +922,7 @@ void MuScleFit::selectMuons(const edm::Event & event)
   muonPairs_.push_back(MuonPair(MuScleFitUtils::SavedPairMuScleMuons.back().first, MuScleFitUtils::SavedPairMuScleMuons.back().second, event.run(), event.id().event()));
   // Fill the internal genPair tree from the external one
   if( MuScleFitUtils::speedup == false ) {
-    MuScleFitUtils::genPair.push_back(std::make_pair( genMuonPairs_.back().mu1, genMuonPairs_.back().mu2 ));
+    MuScleFitUtils::genPair.push_back(std::make_pair( genMuonPairs_.back().mu1.p4(), genMuonPairs_.back().mu2.p4() ));
   }
 }
 

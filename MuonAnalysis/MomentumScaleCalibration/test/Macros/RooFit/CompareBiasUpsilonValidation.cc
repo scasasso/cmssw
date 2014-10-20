@@ -15,7 +15,7 @@
 class CompareBiasUpsilonValidation
 {
 public:
-  CompareBiasUpsilonValidation(const TString& leg) 
+  CompareBiasUpsilonValidation(const TString& fileIn, const TString& leg) 
   {
 
 
@@ -24,7 +24,7 @@ public:
     doFit_ = false;
 
 
-    TString inputFileName("0_ymumuHisto.root");
+    TString inputFileName(fileIn);
     TString outputFileName("BiasCheck.root");
 
 

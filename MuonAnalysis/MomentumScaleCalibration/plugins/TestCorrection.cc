@@ -238,10 +238,10 @@ void TestCorrection::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
   // Find the two muons from the resonance, and set ResFound bool
   // ------------------------------------------------------------
-  std::pair <reco::Particle::LorentzVector, reco::Particle::LorentzVector> recMuFromBestRes = 
+  std::pair <MuScleFitMuon, MuScleFitMuon> recMuFromBestRes = 
     MuScleFitUtils::findBestRecoRes (muons);
   if (MuScleFitUtils::ResFound) {
-    MuScleFitUtils::SavedPair.push_back( std::make_pair (recMuFromBestRes.first, recMuFromBestRes.second) );
+    MuScleFitUtils::SavedPair.push_back( std::make_pair (recMuFromBestRes.first.p4(), recMuFromBestRes.second.p4()) );
   } else {
     MuScleFitUtils::SavedPair.push_back( std::make_pair (lorentzVector(0.,0.,0.,0.), lorentzVector(0.,0.,0.,0.)) );
   }
