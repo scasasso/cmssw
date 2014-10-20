@@ -4539,6 +4539,235 @@ public:
 
 };
 
+//
+// Curvature: binned function + Eloss correction
+// Same as type60 (good results on Legacy 2011 MC), but different binning
+// - phi bins = [8,8,8,8,8,8,8] in 7 eta bins
+// ------------------------------------------------------------
+template <class T>
+class scaleFunctionType63 : public scaleFunctionBase<T> {
+public:
+  scaleFunctionType63() { 
+    this->parNum_ = 61; 
+  }
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+    double deltaK(0);
+    double p0 = parScale[0];
+
+    double A(0);    
+    if ( fabs(eta)<0.9 ) A = parScale[1];
+    else if ( fabs(eta)<1.5 ) A = parScale[2];
+    else if ( fabs(eta) < 2.1 ) A = parScale[3];
+    else if ( fabs(eta) < 2.4 ) A = parScale[4];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+            
+    if ( eta<-2.1 && eta>-2.4 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[5];
+    else if ( eta<-2.1 && eta>-2.4 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[6];
+    else if ( eta<-2.1 && eta>-2.4 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[7];
+    else if ( eta<-2.1 && eta>-2.4 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[8];
+    else if ( eta<-2.1 && eta>-2.4 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[9];
+    else if ( eta<-2.1 && eta>-2.4 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[10];
+    else if ( eta<-2.1 && eta>-2.4 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[11];
+    else if ( eta<-2.1 && eta>-2.4 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[12];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[13];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[14];
+    else if ( eta<-1.5 && eta>-2.1 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[15];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[16];
+    else if ( eta<-1.5 && eta>-2.1 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[17];
+    else if ( eta<-1.5 && eta>-2.1 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[18];
+    else if ( eta<-1.5 && eta>-2.1 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[19];
+    else if ( eta<-1.5 && eta>-2.1 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[20];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[21];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[22];
+    else if ( eta<-0.9 && eta>-1.5 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[23];
+    else if ( eta<-0.9 && eta>-1.5 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[24];
+    else if ( eta<-0.9 && eta>-1.5 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[25];
+    else if ( eta<-0.9 && eta>-1.5 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[26];
+    else if ( eta<-0.9 && eta>-1.5 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[27];
+    else if ( eta<-0.9 && eta>-1.5 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[28];
+    else if ( eta<0.9 && eta>-0.9 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[29];
+    else if ( eta<0.9 && eta>-0.9 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[30];
+    else if ( eta<0.9 && eta>-0.9 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[31];
+    else if ( eta<0.9 && eta>-0.9 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[32];
+    else if ( eta<0.9 && eta>-0.9 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[33];
+    else if ( eta<0.9 && eta>-0.9 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[34];
+    else if ( eta<0.9 && eta>-0.9 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[35];
+    else if ( eta<0.9 && eta>-0.9 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[36];
+    else if ( eta<1.5 && eta>0.9 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[37];
+    else if ( eta<1.5 && eta>0.9 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[38];
+    else if ( eta<1.5 && eta>0.9 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[39];
+    else if ( eta<1.5 && eta>0.9 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[40];
+    else if ( eta<1.5 && eta>0.9 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[41];
+    else if ( eta<1.5 && eta>0.9 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[42];
+    else if ( eta<1.5 && eta>0.9 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[43];
+    else if ( eta<1.5 && eta>0.9 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[44];
+    else if ( eta<2.1 && eta>1.5 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[45];
+    else if ( eta<2.1 && eta>1.5 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[46];
+    else if ( eta<2.1 && eta>1.5 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[47];
+    else if ( eta<2.1 && eta>1.5 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[48];
+    else if ( eta<2.1 && eta>1.5 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[49];
+    else if ( eta<2.1 && eta>1.5 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[50];
+    else if ( eta<2.1 && eta>1.5 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[51];
+    else if ( eta<2.1 && eta>1.5 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[52];
+    else if ( eta<2.4 && eta>2.1 && phi<-2.35619449019 && phi>-3.14159265359 ) deltaK = parScale[53];
+    else if ( eta<2.4 && eta>2.1 && phi<-1.57079632679 && phi>-2.35619449019 ) deltaK = parScale[54];
+    else if ( eta<2.4 && eta>2.1 && phi<-0.785398163397 && phi>-1.57079632679 ) deltaK = parScale[55];
+    else if ( eta<2.4 && eta>2.1 && phi<0.0 && phi>-0.785398163397 ) deltaK = parScale[56];
+    else if ( eta<2.4 && eta>2.1 && phi<0.785398163397 && phi>0.0 ) deltaK = parScale[57];
+    else if ( eta<2.4 && eta>2.1 && phi<1.57079632679 && phi>0.785398163397 ) deltaK = parScale[58];
+    else if ( eta<2.4 && eta>2.1 && phi<2.35619449019 && phi>1.57079632679 ) deltaK = parScale[59];
+    else if ( eta<2.4 && eta>2.1 && phi<3.14159265359 && phi>2.35619449019 ) deltaK = parScale[60];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+
+    // apply the correction
+    double curv = (double)chg/pt;
+    return 1./((double)chg*(1+p0)*(curv+deltaK+(double)chg*curv*curv*A));
+  }
+  // Fill the scaleVec with neutral parameters
+  virtual void resetParameters(std::vector<double> * scaleVec) const {
+    //    scaleVec->push_back(1);
+    for( int i=0; i<this->parNum_; ++i ) {
+      scaleVec->push_back(0);
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
+                             TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
+
+    double thisStep[] = {
+      0.000001, 
+      0.01, 0.01, 0.01, 0.01,
+            0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001
+    }; 
+
+    TString thisParName[] = { 
+      "Curv global scale", 
+      "ELoss |eta|<0.9", "ELoss 0.9<|eta|<1.5", "ELoss 1.5<|eta|<2.1", "ELoss 2.1<|eta|<2.4",
+      "deltaK bin1", "deltaK bin2", "deltaK bin3", "deltaK bin4", "deltaK bin5", "deltaK bin6", "deltaK bin7", "deltaK bin8", "deltaK bin9", "deltaK bin10", "deltaK bin11", "deltaK bin12", "deltaK bin13", "deltaK bin14", "deltaK bin15", "deltaK bin16", "deltaK bin17", "deltaK bin18", "deltaK bin19", "deltaK bin20", "deltaK bin21", "deltaK bin22", "deltaK bin23", "deltaK bin24", "deltaK bin25", "deltaK bin26", "deltaK bin27", "deltaK bin28", "deltaK bin29", "deltaK bin30", "deltaK bin31", "deltaK bin32", "deltaK bin33", "deltaK bin34", "deltaK bin35", "deltaK bin36", "deltaK bin37", "deltaK bin38", "deltaK bin39", "deltaK bin40", "deltaK bin41", "deltaK bin42", "deltaK bin43", "deltaK bin44", "deltaK bin45", "deltaK bin46", "deltaK bin47", "deltaK bin48", "deltaK bin49", "deltaK bin50", "deltaK bin51", "deltaK bin52", "deltaK bin53", "deltaK bin54", "deltaK bin55", "deltaK bin56"
+    };
+
+    if( muonType == 1 ) {
+      double thisMini[] = {
+      -0.1,
+      -0.1, -0.1, -0.1, -0.1,
+      -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005
+      };
+      double thisMaxi[] = {
+	0.1,
+	0.1, 0.1, 0.1, 0.1,
+	0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {
+	-0.1,
+	-0.1, -0.1, -0.1, -0.1,
+	-0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005, -0.005
+      };
+      double thisMaxi[] = {
+	0.1,
+	0.1, 0.1, 0.1, 0.1,
+	0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005
+      };
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
+			     const T & parScale, const std::vector<int> & parScaleOrder,
+			     const std::vector<double> & parStep,
+			     const std::vector<double> & parMin,
+			     const std::vector<double> & parMax,
+			     const int muonType)
+  {
+    if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
+      std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
+      std::cout << "parNum = " << this->parNum_ << std::endl;
+      std::cout << "parStep.size() = " << parStep.size() << std::endl;
+      std::cout << "parMin.size() = " << parMin.size() << std::endl;
+      std::cout << "parMax.size() = " << parMax.size() << std::endl;
+      exit(1);
+    }
+    std::vector<ParameterSet> parSet(this->parNum_);
+    // name, step, mini, maxi
+    parSet[0]  = ParameterSet( "Curv global scale",   parStep[0], parMin[0], parMax[0] );
+    parSet[1]  = ParameterSet( "ELoss |eta|<0.9",     parStep[1], parMin[1], parMax[1] );
+    parSet[2]  = ParameterSet( "ELoss 0.9<|eta|<1.5", parStep[2], parMin[2], parMax[2] );
+    parSet[3]  = ParameterSet( "ELoss 1.5<|eta|<2.1", parStep[3], parMin[3], parMax[3] );
+    parSet[4]  = ParameterSet( "ELoss 2.1<|eta|<2.4", parStep[4], parMin[4], parMax[4] );
+    parSet[5]  = ParameterSet( "deltaK bin1",     parStep[5],  parMin[5],  parMax[5] );
+    parSet[6]  = ParameterSet( "deltaK bin2",     parStep[6],  parMin[6],  parMax[6] );
+    parSet[7]  = ParameterSet( "deltaK bin3",     parStep[7],  parMin[7],  parMax[7] );
+    parSet[8]  = ParameterSet( "deltaK bin4",     parStep[8],  parMin[8],  parMax[8] );
+    parSet[9]  = ParameterSet( "deltaK bin5",     parStep[9],  parMin[9],  parMax[9] );
+    parSet[10]  = ParameterSet( "deltaK bin6",    parStep[10], parMin[10], parMax[10] );
+    parSet[11]  = ParameterSet( "deltaK bin7",    parStep[11], parMin[11], parMax[11] );
+    parSet[12]  = ParameterSet( "deltaK bin8",    parStep[12], parMin[12], parMax[12] );
+    parSet[13]  = ParameterSet( "deltaK bin9",    parStep[13], parMin[13], parMax[13] );
+    parSet[14]  = ParameterSet( "deltaK bin10",   parStep[14], parMin[14], parMax[14] );
+    parSet[15]  = ParameterSet( "deltaK bin11",   parStep[15], parMin[15], parMax[15] );
+    parSet[16]  = ParameterSet( "deltaK bin12",   parStep[16], parMin[16], parMax[16] );
+    parSet[17]  = ParameterSet( "deltaK bin13",   parStep[17], parMin[17], parMax[17] );
+    parSet[18]  = ParameterSet( "deltaK bin14",   parStep[18], parMin[18], parMax[18] );
+    parSet[19]  = ParameterSet( "deltaK bin15",   parStep[19], parMin[19], parMax[19] );
+    parSet[20]  = ParameterSet( "deltaK bin16",   parStep[20], parMin[20], parMax[20] );
+    parSet[21]  = ParameterSet( "deltaK bin17",   parStep[21], parMin[21], parMax[21] );
+    parSet[22]  = ParameterSet( "deltaK bin18",   parStep[22], parMin[22], parMax[22] );
+    parSet[23]  = ParameterSet( "deltaK bin19",   parStep[23], parMin[23], parMax[23] );
+    parSet[24]  = ParameterSet( "deltaK bin20",   parStep[24], parMin[24], parMax[24] );
+    parSet[25]  = ParameterSet( "deltaK bin21",   parStep[25], parMin[25], parMax[25] );
+    parSet[26]  = ParameterSet( "deltaK bin22",   parStep[26], parMin[26], parMax[26] );
+    parSet[27]  = ParameterSet( "deltaK bin23",   parStep[27], parMin[27], parMax[27] );
+    parSet[28]  = ParameterSet( "deltaK bin24",   parStep[28], parMin[28], parMax[28] );
+    parSet[29]  = ParameterSet( "deltaK bin25",   parStep[29], parMin[29], parMax[29] );
+    parSet[30]  = ParameterSet( "deltaK bin26",   parStep[30], parMin[30], parMax[30] );
+    parSet[31]  = ParameterSet( "deltaK bin27",   parStep[31], parMin[31], parMax[31] );
+    parSet[32]  = ParameterSet( "deltaK bin28",   parStep[32], parMin[32], parMax[32] );
+    parSet[33]  = ParameterSet( "deltaK bin29",   parStep[33], parMin[33], parMax[33] );
+    parSet[34]  = ParameterSet( "deltaK bin30",   parStep[34], parMin[34], parMax[34] );
+    parSet[35]  = ParameterSet( "deltaK bin31",   parStep[35], parMin[35], parMax[35] );
+    parSet[36]  = ParameterSet( "deltaK bin32",   parStep[36], parMin[36], parMax[36] );
+    parSet[37]  = ParameterSet( "deltaK bin33",   parStep[37], parMin[37], parMax[37] );
+    parSet[38]  = ParameterSet( "deltaK bin34",   parStep[38], parMin[38], parMax[38] );
+    parSet[39]  = ParameterSet( "deltaK bin35",   parStep[39], parMin[39], parMax[39] );
+    parSet[40]  = ParameterSet( "deltaK bin36",   parStep[40], parMin[40], parMax[40] );
+    parSet[41]  = ParameterSet( "deltaK bin37",   parStep[41], parMin[41], parMax[41] );
+    parSet[42]  = ParameterSet( "deltaK bin38",   parStep[42], parMin[42], parMax[42] );
+    parSet[43]  = ParameterSet( "deltaK bin39",   parStep[43], parMin[43], parMax[43] );
+    parSet[44]  = ParameterSet( "deltaK bin40",   parStep[44], parMin[44], parMax[44] );
+    parSet[45]  = ParameterSet( "deltaK bin41",   parStep[45], parMin[45], parMax[45] );
+    parSet[46]  = ParameterSet( "deltaK bin42",   parStep[46], parMin[46], parMax[46] );
+    parSet[47]  = ParameterSet( "deltaK bin43",   parStep[47], parMin[47], parMax[47] );
+    parSet[48]  = ParameterSet( "deltaK bin44",   parStep[48], parMin[48], parMax[48] );
+    parSet[49]  = ParameterSet( "deltaK bin45",   parStep[49], parMin[49], parMax[49] );
+    parSet[50]  = ParameterSet( "deltaK bin46",   parStep[50], parMin[50], parMax[50] );
+    parSet[51]  = ParameterSet( "deltaK bin47",   parStep[51], parMin[51], parMax[51] );
+    parSet[52]  = ParameterSet( "deltaK bin48",   parStep[52], parMin[52], parMax[52] );
+    parSet[53]  = ParameterSet( "deltaK bin49",   parStep[53], parMin[53], parMax[53] );
+    parSet[54]  = ParameterSet( "deltaK bin50",   parStep[54], parMin[54], parMax[54] );
+    parSet[55]  = ParameterSet( "deltaK bin51",   parStep[55], parMin[55], parMax[55] );
+    parSet[56]  = ParameterSet( "deltaK bin52",   parStep[56], parMin[56], parMax[56] );
+    parSet[57]  = ParameterSet( "deltaK bin53",   parStep[57], parMin[57], parMax[57] );
+    parSet[58]  = ParameterSet( "deltaK bin54",   parStep[58], parMin[58], parMax[58] );
+    parSet[58]  = ParameterSet( "deltaK bin55",   parStep[59], parMin[59], parMax[59] );
+    parSet[60]  = ParameterSet( "deltaK bin56",   parStep[60], parMin[60], parMax[60] );
+
+
+    std::cout << "setting parameters" << std::endl;
+    for( int i=0; i<this->parNum_; ++i ) {
+      std::cout << "parStep["<<i<<"] = " << parStep[i]
+		<< ", parMin["<<i<<"] = " << parMin[i]
+		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+    }
+    this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
+  }
+
+};
+
 
 
 /// Service to build the scale functor corresponding to the passed identifier

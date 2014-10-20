@@ -235,3 +235,4 @@ backgroundFunctionBase * backgroundFunctionService( const int identifier, const 
   default: std::cout << "Error: undefined background function type = " << identifier << std::endl; exit(1); break;
   }
 }
+
