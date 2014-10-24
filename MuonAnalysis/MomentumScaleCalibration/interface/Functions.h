@@ -4769,6 +4769,413 @@ public:
 };
 
 
+//
+// Curvature: (linear eta + sinusoidal in phi (both in 5 eta bins)) * global scale + Eloss corrections (4 eta bins)
+// ------------------------------------------------------------
+template <class T>
+class scaleFunctionType70 : public scaleFunctionBase<T> {
+public:
+  scaleFunctionType70() { this->parNum_ = 31; }
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+    double ampl(0), phase(0), twist(0), ampl2(0), freq2(0), phase2(0);
+
+    double dEloss(0);    
+    if ( fabs(eta)<0.9 ) dEloss = parScale[1];
+    else if ( fabs(eta)<1.5 ) dEloss = parScale[2];
+    else if ( fabs(eta) < 2.1 ) dEloss = parScale[3];
+    else if ( fabs(eta) < 2.4 ) dEloss = parScale[4];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+
+// very bwd bin
+    if ( eta  < parScale[8] ) {
+      ampl = parScale[5]; phase = parScale[6]; ampl2 = parScale[25]; freq2 = parScale[26]; phase2 = parScale[27];
+      twist = parScale[7]*(eta-parScale[8])+parScale[11]*(parScale[8]-parScale[12])+parScale[15]*parScale[12]; 
+// bwd bin
+    } else if ( parScale[8] <= eta && eta < parScale[12] ) {
+      ampl = parScale[9]; phase = parScale[10];
+      twist = parScale[11]*(eta-parScale[12])+parScale[15]*parScale[12] ; 
+// barrel bin
+    } else if ( parScale[12] <= eta && eta < parScale[16] ) {
+      ampl = parScale[13]; phase = parScale[14];
+      twist = parScale[15]*eta; 
+// fwd bin
+    } else if ( parScale[16] <= eta && eta < parScale[20] ) {
+      ampl = parScale[17]; phase = parScale[18];
+      twist = parScale[19]*(eta-parScale[16])+parScale[15]*parScale[16]; 
+// very fwd bin
+    } else if ( parScale[20] < eta ) {
+      ampl = parScale[21]; phase = parScale[22]; ampl2 = parScale[28]; freq2 = parScale[29]; phase2 = parScale[30];
+      twist = parScale[23]*(eta-parScale[20])+parScale[19]*(parScale[20]-parScale[16])+parScale[15]*parScale[16]; 
+    }
+
+// apply the correction
+    double curv = (1.+parScale[0])*((double)chg/pt
+				    -twist
+				    -ampl*sin(phi+phase)
+				    -ampl2*sin((int)freq2*phi+phase2)
+				    -0.5*parScale[24]
+				    +(double)chg*dEloss/(pt*pt));
+    return 1./((double)chg*curv);
+  }
+  // Fill the scaleVec with neutral parameters
+  virtual void resetParameters(std::vector<double> * scaleVec) const {
+    //    scaleVec->push_back(1);
+    for( int i=0; i<this->parNum_; ++i ) {
+      scaleVec->push_back(0);
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
+                             TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
+
+    double thisStep[] = {0.000001, 
+                         0.001, 0.001, 0.001, 0.001,	   
+			 0.000001, 0.01, 0.000001, 0.01,  
+			 0.000001, 0.01, 0.000001, 0.01, 
+			 0.000001, 0.01, 0.000001, 0.01, 
+			 0.000001, 0.01, 0.000001, 0.01, 
+			 0.000001, 0.01, 0.000001,
+			 0.000001,
+			 0.000001, 0.01, 0.01,
+			 0.000001, 0.01, 0.01}; 
+
+    TString thisParName[] = { "Curv global scale"    	
+                              , "ELoss |eta|<0.9", "ELoss 0.9<|eta|<1.5", "ELoss 1.5<|eta|<2.1", "ELoss 2.1<|eta|<2.4"
+			      , "Phi ampl eta vbwd"  , "Phi phase eta vbwd" , "Twist eta vbwd",   "vbwd/bwd bndry"
+			      , "Phi ampl eta  bwd"  , "Phi phase eta  bwd" , "Twist eta  bwd",   "bwd/bar bndry"   
+			      , "Phi ampl eta  bar"  , "Phi phase eta  bar" , "Twist eta  bar",   "bar/fwd bndry"  
+			      , "Phi ampl eta  fwd"  , "Phi phase eta  fwd" , "Twist eta  fwd",   "fwd/vfwd bndry"  
+			      , "Phi ampl eta vfwd"  , "Phi phase eta vfwd" , "Twist eta vfwd"
+			      , "Charge depend bias"
+			      , "Phi ampl eta vbwd (2nd harmon.)", "Phi freq. eta vbwd (2nd harmon.)", "Phi phase eta vbwd (2nd harmon.)"
+			      , "Phi ampl eta vfwd (2nd harmon.)", "Phi freq. eta vfwd (2nd harmon.)", "Phi phase eta vfwd (2nd harmon.)"};
+
+    if( muonType == 1 ) {
+      double thisMini[] = {-0.1, 
+			   -0.1, -0.1, -0.1, -0.1,
+			   -0.3, -3.1416, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3,  0.,  
+			   -0.3, -3.1416, -0.3,  0., 
+			   -0.3, -3.1416, -0.3, 
+			   -0.1, 
+			   -0.3, 1., -3.1416, 
+			   -0.3, 1., -3.1416};
+      double thisMaxi[] = { 0.1, 
+			    0.1, 0.1, 0.1, 0.1, 
+			    0.3,  3.1416,  0.3,  0. ,  
+			    0.3,  3.1416,  0.3,  0. ,  
+			    0.3,  3.1416,  0.3,  2.6 , 
+			    0.3,  3.1416,  0.3,  2.6 ,  
+			    0.3,  3.1416,  0.3,  
+			    0.1,  
+			    0.3, 5.,  3.1416, 
+			    0.3, 5.,  3.1416};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {-0.1, 
+			   -0.1, -0.1, -0.1, -0.1,
+			   -0.3, -3.1416, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3,  0.,  
+			   -0.3, -3.1416, -0.3,  0., 
+			   -0.3, -3.1416, -0.3, 
+			   -0.1, 
+			   -0.3, 1., -3.1416, 
+			   -0.3, 1., -3.1416};
+      double thisMaxi[] = { 0.1, 
+			    0.1, 0.1, 0.1, 0.1, 
+			    0.3,  3.1416,  0.3,  0. ,  
+			    0.3,  3.1416,  0.3,  0. ,  
+			    0.3,  3.1416,  0.3,  2.6 , 
+			    0.3,  3.1416,  0.3,  2.6 ,  
+			    0.3,  3.1416,  0.3,  
+			    0.1,  
+			    0.3, 5.,  3.1416, 
+			    0.3, 5.,  3.1416};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
+			     const T & parScale, const std::vector<int> & parScaleOrder,
+			     const std::vector<double> & parStep,
+			     const std::vector<double> & parMin,
+			     const std::vector<double> & parMax,
+			     const int muonType)
+  {
+    if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
+      std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
+      std::cout << "parNum = " << this->parNum_ << std::endl;
+      std::cout << "parStep.size() = " << parStep.size() << std::endl;
+      std::cout << "parMin.size() = " << parMin.size() << std::endl;
+      std::cout << "parMax.size() = " << parMax.size() << std::endl;
+      exit(1);
+    }
+    std::vector<ParameterSet> parSet(this->parNum_);
+    // name, step, mini, maxi
+    parSet[0]  = ParameterSet( "Curv global scale",   parStep[0], parMin[0], parMax[0] );
+    parSet[1]  = ParameterSet( "ELoss |eta|<0.9",     parStep[1], parMin[1], parMax[1] );
+    parSet[2]  = ParameterSet( "ELoss 0.9<|eta|<1.5", parStep[2], parMin[2], parMax[2] );
+    parSet[3]  = ParameterSet( "ELoss 1.5<|eta|<2.1", parStep[3], parMin[3], parMax[3] );
+    parSet[4]  = ParameterSet( "ELoss 2.1<|eta|<2.4", parStep[4], parMin[4], parMax[4] );
+    parSet[5]  = ParameterSet( "Phi ampl  vbwd",      parStep[5], parMin[5], parMax[5] );
+    parSet[6]  = ParameterSet( "Phi phase vbwd",      parStep[6], parMin[6], parMax[6] );
+    parSet[7]  = ParameterSet( "Twist vbwd",          parStep[7], parMin[7], parMax[7] );
+    parSet[8]  = ParameterSet( "vbwd/bwd bndry",      parStep[8], parMin[8], parMax[8] );
+    parSet[9]  = ParameterSet( "Phi ampl   bwd",      parStep[9], parMin[9], parMax[9] );
+    parSet[10] = ParameterSet( "Phi phase  bwd",      parStep[10],parMin[10],parMax[10] );
+    parSet[11] = ParameterSet( "Twist  bwd",          parStep[11],parMin[11],parMax[11] );
+    parSet[12] = ParameterSet( "bwd/bar bndry",       parStep[12],parMin[12],parMax[12] );
+    parSet[13] = ParameterSet( "Phi ampl   bar",      parStep[13],parMin[13],parMax[13] );
+    parSet[14] = ParameterSet( "Phi phase  bar",      parStep[14],parMin[14],parMax[14] );
+    parSet[15] = ParameterSet( "Twist  bar",          parStep[15],parMin[15],parMax[15] );
+    parSet[16] = ParameterSet( "bar/fwd bndry",       parStep[16],parMin[16],parMax[16] );
+    parSet[17] = ParameterSet( "Phi ampl   fwd",      parStep[17],parMin[17],parMax[17] );
+    parSet[18] = ParameterSet( "Phi phase  fwd",      parStep[18],parMin[18],parMax[18] );
+    parSet[19] = ParameterSet( "Twist  fwd",          parStep[19],parMin[19],parMax[19] );
+    parSet[20] = ParameterSet( "fwd/vfwd bndry",      parStep[20],parMin[20],parMax[20] );
+    parSet[21] = ParameterSet( "Phi ampl  vfwd",      parStep[21],parMin[21],parMax[21] );
+    parSet[22] = ParameterSet( "Phi phase vfwd",      parStep[22],parMin[22],parMax[22] );
+    parSet[23] = ParameterSet( "Twist vfwd",          parStep[23],parMin[23],parMax[23] );
+    parSet[24] = ParameterSet( "Charge depend bias",  parStep[24],parMin[24],parMax[24] );
+    parSet[25] = ParameterSet( "Phi ampl vbwd (2nd)", parStep[25],parMin[25],parMax[25] );
+    parSet[26] = ParameterSet( "Phi freq vbwd (2nd)", parStep[26],parMin[26],parMax[26] );
+    parSet[27] = ParameterSet( "Phi phase vbwd (2nd)",parStep[27],parMin[27],parMax[27] );
+    parSet[28] = ParameterSet( "Phi ampl vfwd (2nd)", parStep[28],parMin[28],parMax[28] );
+    parSet[29] = ParameterSet( "Phi freq vfwd (2nd)", parStep[29],parMin[29],parMax[29] );
+    parSet[30] = ParameterSet( "Phi phase vfwd (2nd)",parStep[30],parMin[30],parMax[30] );
+
+
+    std::cout << "setting parameters" << std::endl;
+    for( int i=0; i<this->parNum_; ++i ) {
+      std::cout << "parStep["<<i<<"] = " << parStep[i]
+		<< ", parMin["<<i<<"] = " << parMin[i]
+		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+    }
+    this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
+  }
+
+};
+
+//
+// Curvature: (linear eta + sinusoidal in phi (both in 5 eta bins)) * global scale + Eloss corrections (4 eta bins)
+// ------------------------------------------------------------
+template <class T>
+class scaleFunctionType71 : public scaleFunctionBase<T> {
+public:
+  scaleFunctionType71() { this->parNum_ = 36; }
+  virtual double scale(const double & pt, const double & eta, const double & phi, const int chg, const T & parScale) const {    
+    double ampl(0), phase(0), twist(0), ampl2(0), freq2(0), phase2(0);
+
+    double dEloss(0);    
+    if ( fabs(eta)<0.9 ) dEloss = parScale[1];
+    else if ( fabs(eta)<1.5 ) dEloss = parScale[2];
+    else if ( fabs(eta) < 2.1 ) dEloss = parScale[3];
+    else if ( fabs(eta) < 2.4 ) dEloss = parScale[4];
+    else {
+      std::cout << "This should really not happen, this muon has eta = " << eta << "and phi = " << phi << std::endl;
+      exit(1);
+    }
+
+// very bwd bin
+    if ( eta  < parScale[9] ) {
+      ampl = parScale[5]; phase = parScale[6]; ampl2 = parScale[30]; freq2 = parScale[31]; phase2 = parScale[32];
+      if ( chg > 0 ) {
+	twist = parScale[7]*(eta-parScale[9])+parScale[12]*(parScale[9]-parScale[14])+parScale[17]*parScale[14]; 
+      } else  {
+	twist = parScale[8]*(eta-parScale[9])+parScale[13]*(parScale[9]-parScale[14])+parScale[18]*parScale[14]; 
+      }
+// bwd bin
+    } else if ( parScale[9] <= eta && eta < parScale[14] ) {
+      ampl = parScale[10]; phase = parScale[11];
+      if ( chg > 0 ) {
+	twist = parScale[12]*(eta-parScale[14])+parScale[17]*parScale[14] ; 
+      } else  {
+	twist = parScale[13]*(eta-parScale[14])+parScale[18]*parScale[14] ; 
+      }
+// barrel bin
+    } else if ( parScale[14] <= eta && eta < parScale[19] ) {
+      ampl = parScale[15]; phase = parScale[16];
+      if ( chg > 0 ) {
+	twist = parScale[17]*eta; 
+      } else  {
+	twist = parScale[18]*eta; 
+      }
+// fwd bin
+    } else if ( parScale[19] <= eta && eta < parScale[24] ) {
+      ampl = parScale[20]; phase = parScale[21];
+      if ( chg > 0 ) {
+	twist = parScale[22]*(eta-parScale[19])+parScale[17]*parScale[19]; 
+      } else  {
+	twist = parScale[23]*(eta-parScale[19])+parScale[18]*parScale[19]; 
+      }
+
+// very fwd bin
+    } else if ( parScale[24] < eta ) {
+      ampl = parScale[25]; phase = parScale[26]; ampl2 = parScale[33]; freq2 = parScale[34]; phase2 = parScale[35];
+      if ( chg > 0 ) {
+	twist = parScale[27]*(eta-parScale[24])+parScale[22]*(parScale[24]-parScale[19])+parScale[17]*parScale[19]; 
+      } else  {
+	twist = parScale[28]*(eta-parScale[24])+parScale[23]*(parScale[24]-parScale[19])+parScale[18]*parScale[19]; 
+      }
+
+    }
+
+// apply the correction
+    double curv = (1.+parScale[0])*((double)chg/pt
+				    -twist
+				    -ampl*sin(phi+phase)
+				    -ampl2*sin((int)freq2*phi+phase2)
+				    -0.5*parScale[29]
+				    +(double)chg*dEloss/(pt*pt));
+    return 1./((double)chg*curv);
+  }
+  // Fill the scaleVec with neutral parameters
+  virtual void resetParameters(std::vector<double> * scaleVec) const {
+    //    scaleVec->push_back(1);
+    for( int i=0; i<this->parNum_; ++i ) {
+      scaleVec->push_back(0);
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind,
+                             TString* parname, const T & parScale, const std::vector<int> & parScaleOrder, const int muonType) {
+
+    double thisStep[] = {0.000001, 
+                         0.001, 0.001, 0.001, 0.001,	   
+			 0.000001, 0.01, 0.000001, 0.000001, 0.01,  
+			 0.000001, 0.01, 0.000001, 0.000001, 0.01, 
+			 0.000001, 0.01, 0.000001, 0.000001, 0.01, 
+			 0.000001, 0.01, 0.000001, 0.000001, 0.01, 
+			 0.000001, 0.01, 0.000001, 0.000001,
+			 0.000001,
+			 0.000001, 0.01, 0.01,
+			 0.000001, 0.01, 0.01}; 
+
+    TString thisParName[] = { "Curv global scale"    	
+                              , "ELoss |eta|<0.9", "ELoss 0.9<|eta|<1.5", "ELoss 1.5<|eta|<2.1", "ELoss 2.1<|eta|<2.4"
+			      , "Phi ampl eta vbwd"  , "Phi phase eta vbwd" , "Twist+ eta vbwd",  "Twist- eta vbwd",  "vbwd/bwd bndry"
+			      , "Phi ampl eta  bwd"  , "Phi phase eta  bwd" , "Twist+ eta  bwd",  "Twist- eta  bwd",  "bwd/bar bndry"   
+			      , "Phi ampl eta  bar"  , "Phi phase eta  bar" , "Twist+ eta  bar",  "Twist- eta  bar",  "bar/fwd bndry"  
+			      , "Phi ampl eta  fwd"  , "Phi phase eta  fwd" , "Twist+ eta  fwd",  "Twist- eta  fwd",  "fwd/vfwd bndry"  
+			      , "Phi ampl eta vfwd"  , "Phi phase eta vfwd" , "Twist+ eta vfwd",  "Twist- eta vfwd"
+			      , "Charge depend bias"
+			      , "Phi ampl eta vbwd (2nd harmon.)", "Phi freq. eta vbwd (2nd harmon.)", "Phi phase eta vbwd (2nd harmon.)"
+			      , "Phi ampl eta vfwd (2nd harmon.)", "Phi freq. eta vfwd (2nd harmon.)", "Phi phase eta vfwd (2nd harmon.)"};
+
+    if( muonType == 1 ) {
+      double thisMini[] = {-0.1, 
+			   -0.1, -0.1, -0.1, -0.1,
+			   -0.3, -3.1416, -0.3, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3, -0.3,  0.,  
+			   -0.3, -3.1416, -0.3, -0.3,  0., 
+			   -0.3, -3.1416, -0.3, -0.3, 
+			   -0.1, 
+			   -0.3, 1., -3.1416, 
+			   -0.3, 1., -3.1416};
+      double thisMaxi[] = { 0.1, 
+			    0.1, 0.1, 0.1, 0.1, 
+			    0.3,  3.1416,  0.3,  0.3, 0. ,  
+			    0.3,  3.1416,  0.3,  0.3, 0. ,  
+			    0.3,  3.1416,  0.3,  0.3, 2.6 , 
+			    0.3,  3.1416,  0.3,  0.3, 2.6 ,  
+			    0.3,  3.1416,  0.3,  0.3, 
+			    0.1,  
+			    0.3, 5.,  3.1416, 
+			    0.3, 5.,  3.1416};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    } else {
+      double thisMini[] = {-0.1, 
+			   -0.1, -0.1, -0.1, -0.1,
+			   -0.3, -3.1416, -0.3, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3, -0.3, -2.6, 
+			   -0.3, -3.1416, -0.3, -0.3,  0.,  
+			   -0.3, -3.1416, -0.3, -0.3,  0., 
+			   -0.3, -3.1416, -0.3, -0.3,
+			   -0.1, 
+			   -0.3, 1., -3.1416, 
+			   -0.3, 1., -3.1416};
+      double thisMaxi[] = { 0.1, 
+			    0.1, 0.1, 0.1, 0.1, 
+			    0.3,  3.1416,  0.3,  0.3, 0. ,  
+			    0.3,  3.1416,  0.3,  0.3, 0. ,  
+			    0.3,  3.1416,  0.3,  0.3, 2.6 , 
+			    0.3,  3.1416,  0.3,  0.3, 2.6 ,  
+			    0.3,  3.1416,  0.3,  0.3, 
+			    0.1,  
+			    0.3, 5.,  3.1416, 
+			    0.3, 5.,  3.1416};
+      this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, thisStep, thisMini, thisMaxi, thisParName );
+    }
+  }
+  virtual void setParameters(double* Start, double* Step, double* Mini, double* Maxi, int* ind, TString* parname,
+			     const T & parScale, const std::vector<int> & parScaleOrder,
+			     const std::vector<double> & parStep,
+			     const std::vector<double> & parMin,
+			     const std::vector<double> & parMax,
+			     const int muonType)
+  {
+    if( (int(parStep.size()) != this->parNum_) || (int(parMin.size()) != this->parNum_) || (int(parMax.size()) != this->parNum_) ) {
+      std::cout << "Error: par step or min or max do not match with number of parameters" << std::endl;
+      std::cout << "parNum = " << this->parNum_ << std::endl;
+      std::cout << "parStep.size() = " << parStep.size() << std::endl;
+      std::cout << "parMin.size() = " << parMin.size() << std::endl;
+      std::cout << "parMax.size() = " << parMax.size() << std::endl;
+      exit(1);
+    }
+    std::vector<ParameterSet> parSet(this->parNum_);
+    // name, step, mini, maxi
+    parSet[0]  = ParameterSet( "Curv global scale",   parStep[0], parMin[0], parMax[0] );
+    parSet[1]  = ParameterSet( "ELoss |eta|<0.9",     parStep[1], parMin[1], parMax[1] );
+    parSet[2]  = ParameterSet( "ELoss 0.9<|eta|<1.5", parStep[2], parMin[2], parMax[2] );
+    parSet[3]  = ParameterSet( "ELoss 1.5<|eta|<2.1", parStep[3], parMin[3], parMax[3] );
+    parSet[4]  = ParameterSet( "ELoss 2.1<|eta|<2.4", parStep[4], parMin[4], parMax[4] );
+    parSet[5]  = ParameterSet( "Phi ampl  vbwd",      parStep[5], parMin[5], parMax[5] );
+    parSet[6]  = ParameterSet( "Phi phase vbwd",      parStep[6], parMin[6], parMax[6] );
+    parSet[7]  = ParameterSet( "Twist+ vbwd",         parStep[7], parMin[7], parMax[7] );
+    parSet[8]  = ParameterSet( "Twist- vbwd",         parStep[8], parMin[8], parMax[8] );
+    parSet[9]  = ParameterSet( "vbwd/bwd bndry",      parStep[9], parMin[9], parMax[9] );
+    parSet[10] = ParameterSet( "Phi ampl   bwd",      parStep[10],parMin[10],parMax[10] );
+    parSet[11] = ParameterSet( "Phi phase  bwd",      parStep[11],parMin[11],parMax[11] );
+    parSet[12] = ParameterSet( "Twist+  bwd",         parStep[12],parMin[12],parMax[12] );
+    parSet[13] = ParameterSet( "Twist-  bwd",         parStep[13],parMin[13],parMax[13] );
+    parSet[14] = ParameterSet( "bwd/bar bndry",       parStep[14],parMin[14],parMax[14] );
+    parSet[15] = ParameterSet( "Phi ampl   bar",      parStep[15],parMin[15],parMax[15] );
+    parSet[16] = ParameterSet( "Phi phase  bar",      parStep[16],parMin[16],parMax[16] );
+    parSet[17] = ParameterSet( "Twist+  bar",         parStep[17],parMin[17],parMax[17] );
+    parSet[18] = ParameterSet( "Twist-  bar",         parStep[18],parMin[18],parMax[18] );
+    parSet[19] = ParameterSet( "bar/fwd bndry",       parStep[19],parMin[19],parMax[19] );
+    parSet[20] = ParameterSet( "Phi ampl   fwd",      parStep[20],parMin[20],parMax[20] );
+    parSet[21] = ParameterSet( "Phi phase  fwd",      parStep[21],parMin[21],parMax[21] );
+    parSet[22] = ParameterSet( "Twist+  fwd",         parStep[22],parMin[22],parMax[22] );
+    parSet[23] = ParameterSet( "Twist-  fwd",         parStep[23],parMin[23],parMax[23] );
+    parSet[24] = ParameterSet( "fwd/vfwd bndry",      parStep[24],parMin[24],parMax[24] );
+    parSet[25] = ParameterSet( "Phi ampl  vfwd",      parStep[25],parMin[25],parMax[25] );
+    parSet[26] = ParameterSet( "Phi phase vfwd",      parStep[26],parMin[26],parMax[26] );
+    parSet[27] = ParameterSet( "Twist+ vfwd",         parStep[27],parMin[27],parMax[27] );
+    parSet[28] = ParameterSet( "Twist- vfwd",         parStep[28],parMin[28],parMax[28] );
+    parSet[29] = ParameterSet( "Charge depend bias",  parStep[29],parMin[29],parMax[29] );
+    parSet[30] = ParameterSet( "Phi ampl vbwd (2nd)", parStep[30],parMin[30],parMax[30] );
+    parSet[31] = ParameterSet( "Phi freq vbwd (2nd)", parStep[31],parMin[31],parMax[31] );
+    parSet[32] = ParameterSet( "Phi phase vbwd (2nd)",parStep[32],parMin[32],parMax[32] );
+    parSet[33] = ParameterSet( "Phi ampl vfwd (2nd)", parStep[33],parMin[33],parMax[33] );
+    parSet[34] = ParameterSet( "Phi freq vfwd (2nd)", parStep[34],parMin[34],parMax[34] );
+    parSet[35] = ParameterSet( "Phi phase vfwd (2nd)",parStep[34],parMin[35],parMax[35] );
+
+
+    std::cout << "setting parameters" << std::endl;
+    for( int i=0; i<this->parNum_; ++i ) {
+      std::cout << "parStep["<<i<<"] = " << parStep[i]
+		<< ", parMin["<<i<<"] = " << parMin[i]
+		<< ", parMax["<<i<<"] = " << parMin[i] << std::endl;
+    }
+    this->setPar( Start, Step, Mini, Maxi, ind, parname, parScale, parScaleOrder, parSet );
+  }
+
+};
+
 
 /// Service to build the scale functor corresponding to the passed identifier
 scaleFunctionBase<double * > * scaleFunctionService( const int identifier );
