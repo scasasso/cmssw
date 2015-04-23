@@ -92,7 +92,6 @@ public:
 
     TCanvas * backgroundCanvas2 = new TCanvas("backgroundCanvas2", "backgroundCanvas2", 1000, 800);
     TH1D * backgroundHisto2 = new TH1D("backgroundHisto2", "exp a1", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax());
-
     TCanvas * backgroundCanvas3 = new TCanvas("backgroundCanvas3", "backgroundCanvas3", 1000, 800);
     TH1D * backgroundHisto3 = new TH1D("backgroundHisto3", "exp a2", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax());
 
@@ -236,7 +235,7 @@ public:
     TCanvas * meanCanvas = new TCanvas("meanCanvas", "meanCanvas", 1000, 800);
     TH2D * meanHisto = new TH2D("meanHisto", "meanHisto", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax(), binsY, histo->GetYaxis()->GetXmin(), histo->GetYaxis()->GetXmax());
 
-    TCanvas * errorMeanCanvas = new TCanvas("errorMeanCanvas", "errorMeanCanvas", 1000, 800);
+    //TCanvas * errorMeanCanvas = new TCanvas("errorMeanCanvas", "errorMeanCanvas", 1000, 800);
     TH2D * errorMeanHisto = new TH2D("errorMeanHisto", "errorMeanHisto", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax(), binsY, histo->GetYaxis()->GetXmin(), histo->GetYaxis()->GetXmax());
 
     TCanvas * sigmaCanvas = new TCanvas("sigmaCanvas", "sigmaCanvas", 1000, 800);
@@ -246,7 +245,7 @@ public:
     TH2D * backgroundHisto = new TH2D("backgroundHisto", "backgroundHisto", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax(), binsY, histo->GetYaxis()->GetXmin(), histo->GetYaxis()->GetXmax());
     TCanvas * backgroundCanvas2 = new TCanvas("backgroundCanvas2", "backgroundCanvas2", 1000, 800);
     TH2D * backgroundHisto2 = new TH2D("backgroundHisto2", "a1", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax(), binsY, histo->GetYaxis()->GetXmin(), histo->GetYaxis()->GetXmax());
-    TCanvas * backgroundCanvas3 = new TCanvas("backgroundCanvas3", "backgroundCanvas3", 1000, 800);
+    //TCanvas * backgroundCanvas3 = new TCanvas("backgroundCanvas3", "backgroundCanvas3", 1000, 800);
     TH2D * backgroundHisto3 = new TH2D("backgroundHisto3", "a2", binsX, histo->GetXaxis()->GetXmin(), histo->GetXaxis()->GetXmax(), binsY, histo->GetYaxis()->GetXmin(), histo->GetYaxis()->GetXmax());
 
     TCanvas * signalFractionCanvas = new TCanvas("signalFractionCanvas", "signalFractionCanvas", 1000, 800);

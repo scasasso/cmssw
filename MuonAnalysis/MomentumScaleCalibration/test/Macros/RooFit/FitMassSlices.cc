@@ -33,6 +33,7 @@ class FitMassSlices : public FitSlices
       dir = outputFile->GetDirectory("");
     }
 
+    if( rebinXpt != 0 ) rebinX = rebinXpt;
     fitSlice(histoBaseName+"_MassVSPt", histoBaseTitle+"Pt",
     	     xMean, xMin, xMax, sigma, sigmaMin, sigmaMax,
     	     signalType, backgroundType,
